@@ -52,10 +52,7 @@ namespace EbecApp.DataAccess.Repositiories
               
         public Team GetFullTeam(int id)
         {
-            var sql = "SELECT * FROM Teams WHERE ID = @Id;" +
-                      "SELECT * FROM Participants WHERE TeamID = @Id";
-
-            using (var multipleResults = this.db.QueryMultiple(sql, new { Id = id }))
+            using (var multipleResults = this.db.QueryMultiple("GetTeam", new { Id = id }, commandType: CommandType.StoredProcedure))
             {
                 var team = multipleResults.Read<Team>().SingleOrDefault();
                 var members = multipleResults.Read<Participant>().ToList();
