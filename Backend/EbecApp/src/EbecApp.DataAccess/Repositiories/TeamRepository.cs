@@ -15,7 +15,7 @@ namespace EbecApp.DataAccess.Repositiories
         const string connString = @"Server=.\SQLEXPRESS;Database=EbecShopDB;Trusted_Connection=True;";
 
         private IDbConnection db = new SqlConnection(connString);
-     
+
         public Team Find(int id)
         {
             return this.db.Query<Team>($"SELECT * FROM Teams t WHERE t.Id = @Id", new { Id = id }).FirstOrDefault();
@@ -44,11 +44,16 @@ namespace EbecApp.DataAccess.Repositiories
 
         public Team Update(Team team)
         {
-            var sql = "UPDATE Teams " +
-                      "SET Name     = @Name, " +
-                      "    Balance  = @Balance " +
-                      "WHERE Id = @Id";
-            this.db.Execute(sql, team);
+            //var sql = "UPDATE Teams " +
+            //          "SET Name     = @Name, " +
+            //          "    Balance  = @Balance " +
+            //          "WHERE Id = @Id";
+            var parameters = new DynamicParameters();
+            parameters.Add("@Id", team.Id);
+            parameters.Add("@Name", team.Name);
+            parameters.Add("@Balance", team.Balance);
+
+            this.db.Execute("UpdateTeam", team, commandType: CommandType.StoredProcedure);
             return team;
         }
 

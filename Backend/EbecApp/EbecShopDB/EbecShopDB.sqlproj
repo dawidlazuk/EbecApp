@@ -46,6 +46,7 @@
     <DefineTrace>true</DefineTrace>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <PlatformTarget>x86</PlatformTarget>
   </PropertyGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">11.0</VisualStudioVersion>
@@ -69,14 +70,13 @@
     <Build Include="Tables\Teams.sql" />
     <Build Include="Procedures\GetTeam.sql" />
     <Build Include="Procedures\InsertTeam.sql" />
+    <Build Include="Procedures\UpdateTeam.sql" />
+    <Build Include="Procedures\InsertParticipant.sql" />
   </ItemGroup>
   <ItemGroup>
     <PostDeploy Include="Script.PostDeployment-Seed.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="EbecShopDB.publish.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <PreDeploy Include="Script.PreDeployment-Clean.sql" />
   </ItemGroup>
 </Project>
