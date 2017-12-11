@@ -15,7 +15,7 @@ namespace ConsoleApp
 
             teamRepository.Add(new Team
             {
-                Name = "Dodawany"
+                Name = "DodawanyProcedurą"
             });
 
             var teams = teamRepository.GetAll();                      

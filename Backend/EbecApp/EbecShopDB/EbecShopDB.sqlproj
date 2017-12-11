@@ -68,11 +68,15 @@
     <Build Include="Tables\TeamProductLimits.sql" />
     <Build Include="Tables\Teams.sql" />
     <Build Include="Procedures\GetTeam.sql" />
+    <Build Include="Procedures\InsertTeam.sql" />
   </ItemGroup>
   <ItemGroup>
     <PostDeploy Include="Script.PostDeployment-Seed.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="EbecShopDB.publish.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <PreDeploy Include="Script.PreDeployment-Clean.sql" />
   </ItemGroup>
 </Project>

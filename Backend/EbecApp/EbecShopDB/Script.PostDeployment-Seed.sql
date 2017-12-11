@@ -13,6 +13,7 @@ Post-Deployment Script Template
 INSERT [dbo].[Teams] ([Name],[Balance]) VALUES ('Testowy', 0.0);
 INSERT [dbo].[Teams] ([Name],[Balance]) VALUES ('Best', -20.0);
 INSERT [dbo].[Teams] ([Name],[Balance]) VALUES ('Ebecowcy', 10.0);
+INSERT [dbo].[Teams] ([Name],[Balance]) VALUES ('Czwarty', 100.0);
 
 INSERT [dbo].[Participants] ([Firstname],[Surname],[TeamId]) VALUES ('Imie','Nazwisko',1);
 INSERT [dbo].[Participants] ([Firstname],[Surname],[TeamId]) VALUES ('Dawid','Bestowy',3);

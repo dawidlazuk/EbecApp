@@ -28,10 +28,17 @@ namespace EbecApp.DataAccess.Repositiories
 
         public Team Add(Team team)
         {
-            var sql = "INSERT INTO Teams (Name, Balance) VALUES(@Name, @Balance);"+
-                               "SELECT CAST(SCOPE_IDENTITY() as int);";
-            var id = this.db.Query<int>(sql, team).Single();
-            team.Id = id;
+            //var sql = "INSERT INTO Teams (Name, Balance) VALUES(@Name, @Balance);"+
+            //                   "SELECT CAST(SCOPE_IDENTITY() as int);";
+            var parameters = new DynamicParameters();
+            parameters.Add("@Id", value: team.Id, dbType: DbType.Int32, direction: ParameterDirection.InputOutput);
+            parameters.Add("@Name", team.Name);
+            parameters.Add("@Balance", team.Balance);
+            this.db.Execute("InsertTeam", parameters, commandType: CommandType.StoredProcedure);
+            team.Id = parameters.Get<int>("@Id");
+
+            //var id = this.db.Query<int>("InsertTeam", team, commandType: CommandType.StoredProcedure).Single();
+            //team.Id = id;
             return team;
         }
 
