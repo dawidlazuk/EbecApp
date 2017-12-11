@@ -2,7 +2,8 @@
   "version": "1.0.0-*",
 
   "dependencies": {
-    "Microsoft.IdentityModel.Protocols": "2.0.0",
+    "Dapper": "1.50.4",
+    "EbecApp.Model": "1.0.0-*",
     "NETStandard.Library": "1.6.0"
   },
 

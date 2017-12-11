@@ -1,10 +1,8 @@
-﻿using EbecApp.Model.Types;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
-namespace EbecApp.Model.Repositiories.Interfaces
+using EbecApp.Model;
+
+namespace EbecApp.DataAccess.Repositiories.Interfaces
 {
     public interface ITeamRepository
     {

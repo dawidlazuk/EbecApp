@@ -1,10 +1,10 @@
-﻿using EbecApp.Model.Types.Abstract;
+﻿using EbecApp.Model.Abstract;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace EbecApp.Model.Types
+namespace EbecApp.Model
 {
     public class Product : Entity
     {

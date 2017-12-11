@@ -10,15 +10,15 @@ Post-Deployment Script Template
 --------------------------------------------------------------------------------------
 */
 
-INSERT [dbo].[Teams] ([Id],[Name],[Balance]) VALUES (1, 'Testowy', 0.0);
-INSERT [dbo].[Teams] ([Id],[Name],[Balance]) VALUES (2, 'Best', -20.0);
-INSERT [dbo].[Teams] ([Id],[Name],[Balance]) VALUES (3, 'Ebecowcy', 10.0);
+INSERT [dbo].[Teams] ([Name],[Balance]) VALUES ('Testowy', 0.0);
+INSERT [dbo].[Teams] ([Name],[Balance]) VALUES ('Best', -20.0);
+INSERT [dbo].[Teams] ([Name],[Balance]) VALUES ('Ebecowcy', 10.0);
 
-INSERT [dbo].[Participants] ([Id],[Firstname],[Surname],[TeamId]) VALUES (1,'Imie','Nazwisko',1);
-INSERT [dbo].[Participants] ([Id],[Firstname],[Surname],[TeamId]) VALUES (2,'Dawid','Bestowy',3);
-INSERT [dbo].[Participants] ([Id],[Firstname],[Surname],[TeamId]) VALUES (3,'Name','Nieznam',2);
-INSERT [dbo].[Participants] ([Id],[Firstname],[Surname],[TeamId]) VALUES (4,'Imie','Nazwisko',1);
-INSERT [dbo].[Participants] ([Id],[Firstname],[Surname],[TeamId]) VALUES (5,'Olek','Etanolek',3);
+INSERT [dbo].[Participants] ([Firstname],[Surname],[TeamId]) VALUES ('Imie','Nazwisko',1);
+INSERT [dbo].[Participants] ([Firstname],[Surname],[TeamId]) VALUES ('Dawid','Bestowy',3);
+INSERT [dbo].[Participants] ([Firstname],[Surname],[TeamId]) VALUES ('Name','Nieznam',2);
+INSERT [dbo].[Participants] ([Firstname],[Surname],[TeamId]) VALUES ('Imie','Nazwisko',1);
+INSERT [dbo].[Participants] ([Firstname],[Surname],[TeamId]) VALUES ('Olek','Etanolek',3);
 
 
 

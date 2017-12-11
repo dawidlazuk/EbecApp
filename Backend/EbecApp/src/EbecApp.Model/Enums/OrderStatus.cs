@@ -1,4 +1,4 @@
-﻿namespace EbecApp.Model.Types.Enums
+﻿namespace EbecApp.Model.Enums
 {
     public enum OrderStatus
     {

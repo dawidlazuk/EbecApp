@@ -1,8 +1,8 @@
-﻿using EbecApp.Model.Types.Abstract;
-using EbecApp.Model.Types.Enums;
+﻿using EbecApp.Model.Abstract;
+using EbecApp.Model.Enums;
 using System.Collections.Generic;
 
-namespace EbecApp.Model.Types
+namespace EbecApp.Model
 {
 
     public class Order : Entity
