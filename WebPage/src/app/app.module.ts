@@ -3,11 +3,13 @@ import { NgModule } from '@angular/core';
 
 
 import { AppComponent } from './app.component';
+import { TimeCounterComponent } from './shared/time-counter/time-counter.component';
 
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    TimeCounterComponent
   ],
   imports: [
     BrowserModule
