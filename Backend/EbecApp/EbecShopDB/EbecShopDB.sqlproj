@@ -8,7 +8,7 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectVersion>4.1</ProjectVersion>
     <ProjectGuid>{022ddbb6-31df-4f46-b204-935bf5d0c3d8}</ProjectGuid>
-    <DSP>Microsoft.Data.Tools.Schema.Sql.Sql130DatabaseSchemaProvider</DSP>
+    <DSP>Microsoft.Data.Tools.Schema.Sql.Sql120DatabaseSchemaProvider</DSP>
     <OutputType>Database</OutputType>
     <RootPath>
     </RootPath>
@@ -57,13 +57,20 @@
   <Import Condition="'$(SQLDBExtensionsRefPath)' == ''" Project="$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v$(VisualStudioVersion)\SSDT\Microsoft.Data.Tools.Schema.SqlTasks.targets" />
   <ItemGroup>
     <Folder Include="Properties" />
+    <Folder Include="Tables" />
   </ItemGroup>
   <ItemGroup>
-    <Build Include="Teams.sql" />
-    <Build Include="Participants.sql" />
-    <Build Include="Products.sql" />
-    <Build Include="Orders.sql" />
-    <Build Include="OrdersProducts.sql" />
-    <Build Include="TeamProductLimits.sql" />
+    <Build Include="Tables\Orders.sql" />
+    <Build Include="Tables\OrdersProducts.sql" />
+    <Build Include="Tables\Participants.sql" />
+    <Build Include="Tables\Products.sql" />
+    <Build Include="Tables\TeamProductLimits.sql" />
+    <Build Include="Tables\Teams.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <PostDeploy Include="Script.PostDeployment-Seed.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="EbecShopDB.publish.xml" />
   </ItemGroup>
 </Project>
