@@ -2,15 +2,10 @@
 using EbecShop.Model.Enums;
 using System.Collections.Generic;
 
-namespace EbecShop.BizLogic.Contract
+namespace EbecShop.Shop.BizLogic.Contract
 {
     public interface IShopLogic
     {
-        Order CreateOrder(
-            Team team,
-            IDictionary<Product, decimal> products
-            );
-
         Order ChangeOrderStatus(
             Order order,
             OrderStatus newStatus

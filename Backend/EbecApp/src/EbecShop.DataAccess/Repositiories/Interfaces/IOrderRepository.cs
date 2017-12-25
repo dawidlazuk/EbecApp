@@ -1,4 +1,5 @@
-﻿using EbecShop.Model;
+﻿using EbecShop.DataAccess.Queries;
+using EbecShop.Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,8 +9,9 @@ namespace EbecShop.DataAccess.Repositiories.Interfaces
 {
     public interface IOrderRepository
     {
-        Order Find(int id);
+        Order Get(int id);
         IEnumerable<Order> GetAll();
+        IEnumerable<Order> GetByQuery(OrderQuery query);
 
         Order Add(Order order);
         Order Update(Order order);

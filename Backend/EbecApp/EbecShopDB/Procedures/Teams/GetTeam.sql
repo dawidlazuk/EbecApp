@@ -4,7 +4,8 @@ AS
 BEGIN
 	SELECT  [Id],
 			[Name],
-			[Balance]			
+			[Balance],
+			[BlockedBalance]			
 	FROM [dbo].[Teams]
 	WHERE Id = @Id;
 

@@ -26,12 +26,11 @@ namespace EbecShop.DataAccess.Repositiories
 
         public Team Add(Team team)
         {
-            //var sql = "INSERT INTO Teams (Name, Balance) VALUES(@Name, @Balance);"+
-            //                   "SELECT CAST(SCOPE_IDENTITY() as int);";
             var parameters = new DynamicParameters();
             parameters.Add("@Id", value: team.Id, dbType: DbType.Int32, direction: ParameterDirection.InputOutput);
             parameters.Add("@Name", team.Name);
             parameters.Add("@Balance", team.Balance);
+            parameters.Add("@BlockedBalance", team.BlockedBalance);
             this.db.Execute("InsertTeam", parameters, commandType: CommandType.StoredProcedure);
             team.Id = parameters.Get<int>("@Id");
 
@@ -40,11 +39,6 @@ namespace EbecShop.DataAccess.Repositiories
 
         public Team Update(Team team)
         {
-            var parameters = new DynamicParameters();
-            parameters.Add("@Id", team.Id);
-            parameters.Add("@Name", team.Name);
-            parameters.Add("@Balance", team.Balance);
-
             this.db.Execute("UpdateTeam", team, commandType: CommandType.StoredProcedure);
             return team;
         }

@@ -94,4 +94,7 @@
   <ItemGroup>
     <None Include="EbecShopDB.publish.xml" />
   </ItemGroup>
+  <ItemGroup>
+    <RefactorLog Include="EbecShopDB.refactorlog" />
+  </ItemGroup>
 </Project>

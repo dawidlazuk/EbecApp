@@ -1,16 +1,19 @@
 ﻿CREATE PROCEDURE [dbo].[InsertTeam]
-	@Id			INT OUTPUT,
-	@Name		VARCHAR(40),
-	@Balance	MONEY
+	@Id				INT OUTPUT,
+	@Name			VARCHAR(40),
+	@Balance		MONEY,
+	@BlockedBalance MONEY
 AS
 BEGIN
 
 	INSERT INTO [dbo].[Teams] (
 				Name,
-				Balance
+				Balance,
+				BlockedBalance
 			) VALUES (
 				@Name,
-				@Balance
+				@Balance,
+				@BlockedBalance
 			);
 
 	SET @Id = CAST(SCOPE_IDENTITY() as int);

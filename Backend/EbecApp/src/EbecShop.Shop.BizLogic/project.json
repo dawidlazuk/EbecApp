@@ -2,7 +2,7 @@
   "version": "1.0.0-*",
 
   "dependencies": {
-    "EbecShop.BizLogic.Contract": "1.0.0-*",
+    "EbecShop.Shop.BizLogic.Contract": "1.0.0-*",
     "EbecShop.DataAccess": "1.0.0-*",
     "EbecShop.Model": "1.0.0-*",
     "NETStandard.Library": "2.0.0"

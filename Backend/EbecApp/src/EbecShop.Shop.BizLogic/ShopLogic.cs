@@ -1,34 +1,16 @@
 ﻿using System.Collections.Generic;
 using EbecShop.Model;
 using EbecShop.DataAccess;
-using EbecShop.BizLogic.Contract;
+using EbecShop.Shop.BizLogic.Contract;
 using EbecShop.Model.Enums;
 using System;
 
-namespace EbecShop.BizLogic
+namespace EbecShop.Shop.BizLogic
 {
     class ShopLogic : IShopLogic
     {
-        public Order CreateOrder(Team team, IDictionary<Product, decimal> products)
-        {
-            var order = new Order()
-            {
-                Team = team,
-                Status = Model.Enums.OrderStatus.New
-            };
-                       
-            foreach(var product in products)
-            {
-                //TODO check amount of the products in store
+        #region Orders
 
-                var limit = DbContext.Teams.GetProductLimitForTeam(team, product.Key);
-                if (product.Value > limit)
-                    throw new ExceededLimitException() { Team = team, Product = product.Key, OrderedAmount = product.Value, Limit = limit };
-            }
-
-            order = DbContext.Orders.Add(order);
-            return order;
-        }
 
         public Order ChangeOrderStatus(Order order, OrderStatus newStatus)
         {
@@ -68,5 +50,9 @@ namespace EbecShop.BizLogic
                     break;
             }
         }
+
+        #endregion
+
+
     }
 }

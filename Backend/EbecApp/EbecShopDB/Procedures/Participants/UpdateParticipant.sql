@@ -6,6 +6,7 @@
 AS
 BEGIN
 
+
 	UPDATE [dbo].[Participants] SET
 		Firstname = @Firstname,
 		Surname = @Surname,

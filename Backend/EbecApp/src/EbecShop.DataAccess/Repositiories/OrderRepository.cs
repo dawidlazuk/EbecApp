@@ -6,12 +6,13 @@ using System.Threading.Tasks;
 using EbecShop.Model;
 using Dapper;
 using EbecShop.DataAccess.Repositiories.Abstract;
+using EbecShop.DataAccess.Queries;
 
 namespace EbecShop.DataAccess.Repositiories
 {
     public class OrderRepository : Repository, IOrderRepository
     {
-        public Order Find(int id)
+        public Order Get(int id)
         {
             return this.db.Query<Order>("SELECT * FROM Orders WHERE Id=@Id", new { Id = id }).FirstOrDefault();
         }
@@ -20,23 +21,32 @@ namespace EbecShop.DataAccess.Repositiories
         {
             return this.db.Query<Order>("SELECT * FROM Orders");
         }
+
+        public IEnumerable<Order> GetByQuery(OrderQuery query)
+        {
+            return this.db.Query<Order>(query.GetSqlQuery(), query).ToList();
+        }
         
         public Order Add(Order order)
         {
-            var parameters = new DynamicParameters();
-            parameters.Add("@Id", value: order.Id, dbType: System.Data.DbType.Int32, direction: System.Data.ParameterDirection.InputOutput);
-            parameters.Add("@Status", order.Status);
-            parameters.Add("@TeamId", order.TeamId);
-            this.db.Execute("InsertOrder", parameters, commandType: System.Data.CommandType.StoredProcedure);
-            order.Id = parameters.Get<int>("@Id");
-
-            foreach(var product in order.Products)
+            //VS2017
+            //using (var txScope = new TransactionScope())
             {
-                var productParameter = new DynamicParameters();
-                productParameter.Add("@OrderId", order.Id);
-                productParameter.Add("@ProductId", product.Key.Id);
-                productParameter.Add("@Amount", product.Value);
-                this.db.Execute("InsertOrderProduct", parameters, commandType: System.Data.CommandType.StoredProcedure);                    
+                var parameters = new DynamicParameters();
+                parameters.Add("@Id", value: order.Id, dbType: System.Data.DbType.Int32, direction: System.Data.ParameterDirection.InputOutput);
+                parameters.Add("@Status", order.Status);
+                parameters.Add("@TeamId", order.TeamId);
+                this.db.Execute("InsertOrder", parameters, commandType: System.Data.CommandType.StoredProcedure);
+                order.Id = parameters.Get<int>("@Id");
+
+                foreach (var product in order.Products)
+                {
+                    var productParameter = new DynamicParameters();
+                    productParameter.Add("@OrderId", order.Id);
+                    productParameter.Add("@ProductId", product.Key.Id);
+                    productParameter.Add("@Amount", product.Value);
+                    this.db.Execute("InsertOrderProduct", parameters, commandType: System.Data.CommandType.StoredProcedure);
+                }
             }
             return order;
         }
