@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Linq;
 
-using EbecApp.Model;
-using EbecApp.DataAccess.Repositiories;
-using EbecApp.DataAccess.Repositiories.Interfaces;
+using EbecShop.Model;
+using EbecShop.DataAccess.Repositiories;
+using EbecShop.DataAccess.Repositiories.Interfaces;
 
 namespace ConsoleApp
 {

@@ -1,20 +1,15 @@
 {
   "version": "1.0.0-*",
-  "buildOptions": {
-    "emitEntryPoint": true
-  },
 
   "dependencies": {
+    "EbecShop.BizLogic.Contract": "1.0.0-*",
     "EbecShop.DataAccess": "1.0.0-*",
     "EbecShop.Model": "1.0.0-*",
-    "Microsoft.NETCore.App": {
-      "type": "platform",
-      "version": "1.0.1"
-    }
+    "NETStandard.Library": "2.0.0"
   },
 
   "frameworks": {
-    "netcoreapp1.0": {
+    "netstandard1.6": {
       "imports": "dnxcore50"
     }
   }

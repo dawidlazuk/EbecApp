@@ -10,7 +10,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		global.json = global.json
 	EndProjectSection
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "EbecApp.Model", "src\EbecApp.Model\EbecApp.Model.xproj", "{9B1B678D-259F-4F79-822D-FA117BE6FB2D}"
+Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "EbecShop.Model", "src\EbecShop.Model\EbecShop.Model.xproj", "{9B1B678D-259F-4F79-822D-FA117BE6FB2D}"
 EndProject
 Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "EbecShopDB", "EbecShopDB\EbecShopDB.sqlproj", "{022DDBB6-31DF-4F46-B204-935BF5D0C3D8}"
 EndProject
@@ -18,7 +18,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{FDFDEEE0
 EndProject
 Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "ConsoleApp", "src\ConsoleApp\ConsoleApp.xproj", "{BA9EBD10-25C4-4547-89FC-35EE953015C7}"
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "EbecApp.DataAccess", "src\EbecApp.DataAccess\EbecApp.DataAccess.xproj", "{49411B12-B74D-471C-A5F9-882C171122A0}"
+Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "EbecShop.DataAccess", "src\EbecShop.DataAccess\EbecShop.DataAccess.xproj", "{49411B12-B74D-471C-A5F9-882C171122A0}"
+EndProject
+Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "EbecShop.BizLogic", "src\EbecShop.BizLogic\EbecShop.BizLogic.xproj", "{4A834A86-304A-4D04-AD10-55ECD74F85D6}"
+EndProject
+Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "EbecShop.BizLogic.Contract", "src\EbecShop.BizLogic.Contract\EbecShop.BizLogic.Contract.xproj", "{4C2FA195-2C9D-4338-A68C-AC23DB922563}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -44,6 +48,14 @@ Global
 		{49411B12-B74D-471C-A5F9-882C171122A0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{49411B12-B74D-471C-A5F9-882C171122A0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{49411B12-B74D-471C-A5F9-882C171122A0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4A834A86-304A-4D04-AD10-55ECD74F85D6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4A834A86-304A-4D04-AD10-55ECD74F85D6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4A834A86-304A-4D04-AD10-55ECD74F85D6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4A834A86-304A-4D04-AD10-55ECD74F85D6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4C2FA195-2C9D-4338-A68C-AC23DB922563}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4C2FA195-2C9D-4338-A68C-AC23DB922563}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4C2FA195-2C9D-4338-A68C-AC23DB922563}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4C2FA195-2C9D-4338-A68C-AC23DB922563}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -52,5 +64,7 @@ Global
 		{9B1B678D-259F-4F79-822D-FA117BE6FB2D} = {59A1017A-441F-4103-8CAF-F36E33390ECB}
 		{BA9EBD10-25C4-4547-89FC-35EE953015C7} = {59A1017A-441F-4103-8CAF-F36E33390ECB}
 		{49411B12-B74D-471C-A5F9-882C171122A0} = {59A1017A-441F-4103-8CAF-F36E33390ECB}
+		{4A834A86-304A-4D04-AD10-55ECD74F85D6} = {59A1017A-441F-4103-8CAF-F36E33390ECB}
+		{4C2FA195-2C9D-4338-A68C-AC23DB922563} = {59A1017A-441F-4103-8CAF-F36E33390ECB}
 	EndGlobalSection
 EndGlobal

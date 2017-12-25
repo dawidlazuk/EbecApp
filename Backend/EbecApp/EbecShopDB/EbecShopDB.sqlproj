@@ -60,6 +60,12 @@
     <Folder Include="Properties" />
     <Folder Include="Tables" />
     <Folder Include="Procedures" />
+    <Folder Include="Procedures\Teams" />
+    <Folder Include="Procedures\Participants" />
+    <Folder Include="Procedures\Orders" />
+    <Folder Include="Procedures\OrdersProducts" />
+    <Folder Include="Procedures\Products" />
+    <Folder Include="Procedures\TeamProductLimits" />
   </ItemGroup>
   <ItemGroup>
     <Build Include="Tables\Orders.sql" />
@@ -68,10 +74,19 @@
     <Build Include="Tables\Products.sql" />
     <Build Include="Tables\TeamProductLimits.sql" />
     <Build Include="Tables\Teams.sql" />
-    <Build Include="Procedures\GetTeam.sql" />
-    <Build Include="Procedures\InsertTeam.sql" />
-    <Build Include="Procedures\UpdateTeam.sql" />
-    <Build Include="Procedures\InsertParticipant.sql" />
+    <Build Include="Procedures\Teams\UpdateTeam.sql" />
+    <Build Include="Procedures\Teams\InsertTeam.sql" />
+    <Build Include="Procedures\Teams\GetTeam.sql" />
+    <Build Include="Procedures\Participants\InsertParticipant.sql" />
+    <Build Include="Procedures\Participants\GetParticipant.sql" />
+    <Build Include="Procedures\Participants\UpdateParticipant.sql" />
+    <Build Include="Procedures\Orders\InsertOrder.sql" />
+    <Build Include="Procedures\OrdersProducts\InsertOrderProduct.sql" />
+    <Build Include="Procedures\Orders\GetOrder.sql" />
+    <Build Include="Procedures\Products\InsertProduct.sql" />
+    <Build Include="Procedures\Products\UpdateProduct.sql" />
+    <Build Include="Procedures\TeamProductLimits\GetTeamProductLimit.sql" />
+    <Build Include="Procedures\Orders\UpdateOrder.sql" />
   </ItemGroup>
   <ItemGroup>
     <PostDeploy Include="Script.PostDeployment-Seed.sql" />
