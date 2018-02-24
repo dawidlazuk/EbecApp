@@ -7,6 +7,7 @@ using Dapper;
 
 using EbecApp.Model;
 using EbecApp.DataAccess.Repositiories.Interfaces;
+using System.Transactions;
 
 namespace EbecApp.DataAccess.Repositiories
 {
@@ -81,8 +82,8 @@ namespace EbecApp.DataAccess.Repositiories
         public void Save(Team team)
         {
             //.NET Core 2.0 feature - uncomment in VS2017
-            //using(var txScope = new TransactionScope())
-            {
+            using (var txScope = new TransactionScope())
+            {                
                 if (team.IsNew)
                     this.Add(team);
                 else
