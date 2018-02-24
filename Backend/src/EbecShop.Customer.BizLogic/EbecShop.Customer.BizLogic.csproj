@@ -1,0 +1,20 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard1.6</TargetFramework>
+    <AssemblyName>EbecShop.Customer.BizLogic</AssemblyName>
+    <PackageId>EbecShop.Customer.BizLogic</PackageId>
+    <NetStandardImplicitPackageVersion>2.0.0</NetStandardImplicitPackageVersion>
+    <PackageTargetFallback>$(PackageTargetFallback);dnxcore50</PackageTargetFallback>
+    <GenerateAssemblyConfigurationAttribute>false</GenerateAssemblyConfigurationAttribute>
+    <GenerateAssemblyCompanyAttribute>false</GenerateAssemblyCompanyAttribute>
+    <GenerateAssemblyProductAttribute>false</GenerateAssemblyProductAttribute>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\EbecShop.Customer.BizLogic.Contract\EbecShop.Customer.BizLogic.Contract.csproj" />
+    <ProjectReference Include="..\EbecShop.DataAccess\EbecShop.DataAccess.csproj" />
+    <ProjectReference Include="..\EbecShop.Model\EbecShop.Model.csproj" />
+  </ItemGroup>
+
+</Project>
