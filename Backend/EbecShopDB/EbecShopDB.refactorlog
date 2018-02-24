@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Operations Version="1.0" xmlns="http://schemas.microsoft.com/sqlserver/dac/Serialization/2012/02">
+  <Operation Name="Rename Refactor" Key="34b49e2a-a7d1-41f1-9922-1648c673a91a" ChangeDateTime="12/25/2017 18:05:41">
+    <Property Name="ElementName" Value="[dbo].[Teams].[AvailableBalance]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[Teams]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="BlockedBalance" />
+  </Operation>
+</Operations>

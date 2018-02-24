@@ -1,0 +1,7 @@
+﻿CREATE TABLE [dbo].[Orders]
+(
+	[Id] INT IDENTITY(1,1) NOT NULL PRIMARY KEY,
+	[Status] INT NOT NULL,
+
+	[TeamId] INT NOT NULL FOREIGN KEY REFERENCES Teams(Id) 
+)
