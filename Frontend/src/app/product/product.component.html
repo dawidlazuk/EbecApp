@@ -1,0 +1,23 @@
+<div class="container">
+<div class="row">
+  <div class="col-xs-4">
+  <div class="panel panel-primary" >
+    <div class="panel-heading" style="background: green;">{{product.name}}</div>
+    <div class="panel-body">
+      <div class="row">
+          <div class="col-xs-4">
+            <img [src]='imageUrl'/>    
+          </div>
+          <div class="col-xs-8">
+            <p>{{product.description}}</p>
+          </div>
+      </div>
+      <div class="row">
+        <app-one-type-order-component *ngIf='product && product.types.length == 1'></app-one-type-order-component>
+        <app-multi-type-order-component *ngIf='product && product.types.length > 1'></app-multi-type-order-component> 
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+</div>

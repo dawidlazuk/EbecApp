@@ -1,6 +1,6 @@
 import { AppPage } from './app.po';
 
-describe('ebec-app App', () => {
+describe('web-app App', () => {
   let page: AppPage;
 
   beforeEach(() => {
