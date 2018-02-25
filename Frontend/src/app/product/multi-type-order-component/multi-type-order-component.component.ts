@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
+import { ProductType } from '../productType';
 
 @Component({
   selector: 'app-multi-type-order-component',
@@ -6,8 +7,10 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./multi-type-order-component.component.css']
 })
 export class MultiTypeOrderComponentComponent implements OnInit {
+  @Input() types: ProductType[];
 
-  constructor() { }
+  constructor() { 
+  }
 
   ngOnInit() {
   }

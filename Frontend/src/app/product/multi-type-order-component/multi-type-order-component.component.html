@@ -1,3 +1,20 @@
-<p>
-  multi-type-order-component works!
-</p>
+<div id="panel-group">
+  <div class="panel panel-default">
+    <div class="panel-heading" id="headingOne">
+      <h4 class="panel-title">
+        <a data-toggle="collapse" href="#types">Typy</a>
+      </h4>
+    </div>
+    <div id="types" class="panel-collapse collapse">
+      <div class="panel-body">
+        <table>
+          <tbody>
+            <tr *ngFor='let type of types'>
+              <app-single-type-order-component [type]='type'></app-single-type-order-component>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>

@@ -4,7 +4,7 @@ import { NgModule } from '@angular/core';
 
 import { AppComponent } from './app.component';
 import { ProductComponent } from './product/product.component';
-import { OneTypeOrderComponentComponent } from './product/one-type-order-component/one-type-order-component.component';
+import { SingleTypeOrderComponentComponent } from './product/single-type-order-component/single-type-order-component.component';
 import { MultiTypeOrderComponentComponent } from './product/multi-type-order-component/multi-type-order-component.component';
 
 
@@ -12,7 +12,7 @@ import { MultiTypeOrderComponentComponent } from './product/multi-type-order-com
   declarations: [
     AppComponent,
     ProductComponent,
-    OneTypeOrderComponentComponent,
+    SingleTypeOrderComponentComponent,
     MultiTypeOrderComponentComponent
   ],
   imports: [

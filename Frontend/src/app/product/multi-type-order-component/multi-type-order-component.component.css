@@ -1,0 +1,12 @@
+.panel{
+    margin-bottom: 0px;
+}
+
+.panel-collapse .panel-body{
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+
+.panel-title{
+    text-align: center;
+}
