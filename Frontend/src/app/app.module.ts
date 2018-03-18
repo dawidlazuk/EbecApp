@@ -6,6 +6,7 @@ import { AppComponent } from './app.component';
 import { ProductComponent } from './product/product.component';
 import { SingleTypeOrderComponentComponent } from './product/single-type-order-component/single-type-order-component.component';
 import { MultiTypeOrderComponentComponent } from './product/multi-type-order-component/multi-type-order-component.component';
+import { ProductsListComponent } from './products-list/products-list.component';
 
 
 @NgModule({
@@ -13,7 +14,8 @@ import { MultiTypeOrderComponentComponent } from './product/multi-type-order-com
     AppComponent,
     ProductComponent,
     SingleTypeOrderComponentComponent,
-    MultiTypeOrderComponentComponent
+    MultiTypeOrderComponentComponent,
+    ProductsListComponent
   ],
   imports: [
     BrowserModule

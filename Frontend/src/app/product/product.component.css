@@ -5,3 +5,7 @@ img {
 .panel-body {
     padding-bottom: 0px;
 }
+
+app-product{
+    width: 300px;
+}
