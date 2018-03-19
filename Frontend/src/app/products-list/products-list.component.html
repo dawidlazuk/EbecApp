@@ -2,8 +2,14 @@
   products-list works!
 </p>
 
-<ul class="list-inline">
+<div class="row">
+  <div class="col-md-3 col-xs-6" *ngFor="let product of products">
+    <app-product [product]='product'></app-product>
+  </div>
+</div>
+
+<!-- <ul class="list-inline">
   <li class="list-inline-item" *ngFor="let product of products">
     <app-product [product]='product'></app-product>
   </li>
-</ul>>
+</ul>> -->

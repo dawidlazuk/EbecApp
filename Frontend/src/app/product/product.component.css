@@ -6,6 +6,12 @@ img {
     padding-bottom: 0px;
 }
 
-app-product{
-    width: 300px;
+app-single-type-order-component {
+    width: auto;
+    display: block;
+}
+
+app-multi-type-order-component{
+    width: auto;
+    display: block;
 }
