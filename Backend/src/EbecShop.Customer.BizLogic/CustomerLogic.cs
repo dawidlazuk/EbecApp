@@ -20,7 +20,7 @@ namespace EbecShop.Customer.BizLogic
 
         #region Orders
 
-        public Order CreateOrder(Team team, IDictionary<Product, decimal> products)
+        public Order CreateOrder(Team team, IDictionary<ProductType, decimal> products)
         {
             var order = new Order()
             {
@@ -47,12 +47,12 @@ namespace EbecShop.Customer.BizLogic
             return order;
         }
 
-        private static void CheckProductsLimits(Team team, Order order, IDictionary<Product, decimal> products)
+        private static void CheckProductsLimits(Team team, Order order, IDictionary<ProductType, decimal> products)
         {
-            var productsToRemove = new List<Product>();
+            var productsToRemove = new List<ProductType>();
             foreach (var product in products)
             {
-                var amountInStore = DbContext.Products.Find(product.Key.Id).Amount;
+                var amountInStore = DbContext.ProductTypes.Find(product.Key.Id).Amount;
                 if (product.Value > amountInStore)
                 {
                     productsToRemove.Add(product.Key);

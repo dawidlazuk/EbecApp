@@ -2,24 +2,18 @@
 	@Id				INT OUTPUT,
 	@Name			VARCHAR(40),
 	@Description	TEXT,
-	@Image			IMAGE,
-	@Price			MONEY,
-	@Amount			DECIMAL
+	@Image			IMAGE
 AS
 BEGIN
 
 	INSERT INTO [dbo].[Products] (
 		Name,
 		Description,
-		Image,
-		Price,
-		Amount
+		Image
 	) VALUES (
 		@Name,
 		@Description,
-		@Image,
-		@Price,
-		@Amount
+		@Image
 	);
 
 	SET @Id = CAST(SCOPE_IDENTITY() as int);

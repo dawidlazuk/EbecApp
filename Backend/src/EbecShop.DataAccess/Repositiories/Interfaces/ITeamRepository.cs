@@ -18,7 +18,7 @@ namespace EbecShop.DataAccess.Repositiories.Interfaces
         IDictionary<Product, decimal> GetTeamLimits(int teamId);
         IDictionary<Product, decimal> GetTeamLimits(Team team);
 
-        decimal GetProductLimitForTeam(Team team, Product product);
+        decimal GetProductLimitForTeam(Team team, ProductType product);
         decimal GetProductLimitForTeam(int teamId, int productId);
 
     }

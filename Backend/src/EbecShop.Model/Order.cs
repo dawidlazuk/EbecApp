@@ -22,7 +22,7 @@ namespace EbecShop.Model
 
         public OrderStatus Status { get; set; }
 
-        public IDictionary<Product,decimal> Products { get; set; }
+        public IDictionary<ProductType,decimal> Products { get; set; }
 
         /// <summary>
         /// TODO, not implemented
@@ -31,7 +31,7 @@ namespace EbecShop.Model
 
         public Order()
         {
-            Products = new Dictionary<Product,decimal>();
+            Products = new Dictionary<ProductType,decimal>();
         }
     }
 }

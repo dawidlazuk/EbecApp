@@ -43,7 +43,7 @@ namespace EbecShop.DataAccess.Repositiories
                 {
                     var productParameter = new DynamicParameters();
                     productParameter.Add("@OrderId", order.Id);
-                    productParameter.Add("@ProductId", product.Key.Id);
+                    productParameter.Add("@ProductTypeId", product.Key.Id);
                     productParameter.Add("@Amount", product.Value);
                     this.db.Execute("InsertOrderProduct", parameters, commandType: System.Data.CommandType.StoredProcedure);
                 }
@@ -80,8 +80,8 @@ namespace EbecShop.DataAccess.Repositiories
                 {
                     foreach(var productAmount in products)
                     {
-                        order.Products.Add(new KeyValuePair<Product, decimal>(
-                                DbContext.Products.Find(productAmount.Item1),
+                        order.Products.Add(new KeyValuePair<ProductType, decimal>(
+                                DbContext.ProductTypes.Find(productAmount.Item1),
                                 productAmount.Item2
                             ));
                     }

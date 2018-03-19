@@ -12,7 +12,8 @@ namespace EbecShop.DataAccess
         public static ITeamRepository Teams { get; private set; }
         public static IParticipantRepository Participants { get; private set; }
         public static IOrderRepository Orders { get; private set; }
-        public static IProductRepository Products { get; private set; }
+        public static IProductRepository Products { get; private set; }          
+        public static IProductTypeRepository ProductTypes { get; private set; }
 
 
         static DbContext()
@@ -21,6 +22,7 @@ namespace EbecShop.DataAccess
             Participants = new ParticipantRepository();
             Orders = new OrderRepository();
             Products = new ProductRepository();
+            ProductTypes = new ProductTypeRepository();
         }
     }
 }

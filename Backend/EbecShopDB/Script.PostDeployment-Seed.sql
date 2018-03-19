@@ -21,10 +21,13 @@ INSERT [dbo].[Participants] ([Firstname],[Surname],[TeamId]) VALUES ('Name','Nie
 INSERT [dbo].[Participants] ([Firstname],[Surname],[TeamId]) VALUES ('Imie','Nazwisko',1);
 INSERT [dbo].[Participants] ([Firstname],[Surname],[TeamId]) VALUES ('Olek','Etanolek',3);
 
-INSERT [dbo].[Products] ([Name],[Price],[Amount],[Description]) VALUES ('Gwozdz', 1.0, 100.0, 'Taki sobie przedmiot');
-INSERT [dbo].[Products] ([Name],[Price],[Amount],[Description]) VALUES ('Mlotek', 2.0, 5, 'Bez mlota to nie robota');
-INSERT [dbo].[Products] ([Name],[Price],[Amount],[Description]) VALUES ('Deska', 2.0, 5, 'W coś trzeba gwoździe wbijać');
+INSERT [dbo].[Products] ([Name],[Description]) VALUES ('Gwozdz','Taki sobie przedmiot');
+INSERT [dbo].[Products] ([Name],[Description]) VALUES ('Mlotek','Bez mlota to nie robota');
+INSERT [dbo].[Products] ([Name],[Description]) VALUES ('Deska','W coś trzeba gwoździe wbijać');
 
+INSERT [dbo].[ProductTypes] ([Name],[ProductId],[Price],[Amount]) VALUES ('Dlugi', 1, 1.0, 100.0);
+INSERT [dbo].[ProductTypes] ([Name],[ProductId],[Price],[Amount]) VALUES ('Krotki', 1, 3.0, 100.5);
+INSERT [dbo].[ProductTypes] ([Name],[ProductId],[Price],[Amount]) VALUES ('Szeroka', 3, 2.0, 200);
 
 
 

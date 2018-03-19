@@ -19,9 +19,9 @@ namespace EbecShop.DataAccess.Repositiories
             parameters.Add("@Name",product.Name);
             parameters.Add("@Description",product.Description);
             parameters.Add("@Image",product.Image);
-            parameters.Add("@Price",product.Price);
-            parameters.Add("@Amount", product.Amount);
-            this.db.Execute("InsertProduct", product, commandType: CommandType.StoredProcedure);
+            //parameters.Add("@Price",product.Price);
+            //parameters.Add("@Amount", product.Amount);
+            this.db.Execute("InsertProduct", parameters, commandType: CommandType.StoredProcedure);
             product.Id = parameters.Get<int>("@Id");
 
             return product;
@@ -39,20 +39,36 @@ namespace EbecShop.DataAccess.Repositiories
             parameters.Add("@Name", product.Name);
             parameters.Add("@Description", product.Description);
             parameters.Add("@Image", product.Image);
-            parameters.Add("@Price", product.Price);
-            parameters.Add("@Amount", product.Amount);
-            this.db.Execute("UpdateProduct", product, commandType: CommandType.StoredProcedure);
+            //parameters.Add("@Price", product.Price);
+            //parameters.Add("@Amount", product.Amount);
+            this.db.Execute("UpdateProduct", parameters, commandType: CommandType.StoredProcedure);
             return product;
         }
 
         public IEnumerable<Product> GetAll()
         {
-            return this.db.Query<Product>("SELECT * FROM Products");
+            var products = this.db.Query<Product>("SELECT * FROM Products");
+
+            foreach (var product in products)
+                product.Types = this.db.Query<ProductType>("SELECT * FROM ProductTypes WHERE ProductId=@Id", new { Id = product.Id });
+
+            return products;
         }
 
         public Product GetFullProduct(int id)
         {
-            return Find(id);
+            using (var multipleResults = this.db.QueryMultiple("GetProduct", new { Id = id }, commandType: CommandType.StoredProcedure))
+            {
+                var product = multipleResults.Read<Product>().Single();
+                var productTypes = multipleResults.Read<ProductType>().ToList();
+
+                if (product != null && productTypes != null)
+                {
+                    productTypes.ForEach(type => type.Product = product);
+                    product.Types = productTypes;
+                }
+                return product;
+            }
         }
 
         public void Save(Product product)

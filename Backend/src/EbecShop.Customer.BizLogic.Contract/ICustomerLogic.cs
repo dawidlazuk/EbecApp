@@ -22,7 +22,7 @@ namespace EbecShop.Customer.BizLogic.Contract
 
         Order CreateOrder(
             Team team,
-            IDictionary<Product, decimal> products
+            IDictionary<ProductType, decimal> products
             );
 
         Order CancelOrder(Order order);

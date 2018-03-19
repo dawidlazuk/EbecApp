@@ -5,9 +5,12 @@ using System.Linq;
 
 using Dapper;
 
-using EbecApp.Model;
-using EbecApp.DataAccess.Repositiories.Interfaces;
+
+using EbecShop.Model;
+using EbecShop.DataAccess.Repositiories.Abstract;
+using EbecShop.DataAccess.Repositiories.Interfaces;
 using System.Transactions;
+using System;
 
 namespace EbecShop.DataAccess.Repositiories
 {
@@ -100,7 +103,7 @@ namespace EbecShop.DataAccess.Repositiories
         {
             IDictionary<Product, decimal> result = new Dictionary<Product, decimal>();
 
-            var limits = this.db.Query<Tuple<int, decimal>>("SELECT ProductId, Limit FROM TeamProductLimits WHERE TeamId = @Id", new { Id = teamId }).ToList();
+            var limits = this.db.Query<Tuple<int, decimal>>("SELECT ProductTypeId, Limit FROM TeamProductLimits WHERE TeamId = @Id", new { Id = teamId }).ToList();
 
             foreach(var limit in limits)
             {
@@ -112,18 +115,18 @@ namespace EbecShop.DataAccess.Repositiories
             return result;
         }
 
-        public decimal GetProductLimitForTeam(Team team, Product product)
+        public decimal GetProductLimitForTeam(Team team, ProductType product)
         {
             return GetProductLimitForTeam(team.Id, product.Id);
         }
 
-        public decimal GetProductLimitForTeam(int teamId, int productId)
+        public decimal GetProductLimitForTeam(int teamId, int productTypeId)
         {
             return this.db.Query<decimal>(
-                "GetTeamProductLimit", 
+                "GetTeamProductTypeLimit", 
                 new {
                     TeamId = teamId,
-                    ProductId = productId
+                    ProductTypeId = productTypeId
                 },
                 commandType: CommandType.StoredProcedure)
                     .FirstOrDefault();

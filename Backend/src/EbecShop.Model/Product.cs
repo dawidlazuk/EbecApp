@@ -12,7 +12,6 @@ namespace EbecShop.Model
         public string Description { get; set; }
         public byte[] Image { get; set; }
 
-        public decimal Price { get; set; }
-        public decimal Amount { get; set; }
+        public IEnumerable<ProductType> Types { get; set; }
     }
 }

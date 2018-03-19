@@ -1,0 +1,9 @@
+﻿CREATE TABLE [dbo].[ProductTypes]
+(
+	[Id] INT IDENTITY(1,1) NOT NULL PRIMARY KEY, 
+	[ProductId] INT FOREIGN KEY REFERENCES Products(Id),
+
+    [Name] VARCHAR(40) NOT NULL,
+	[Price] MONEY NOT NULL,
+	[Amount] DECIMAL NOT NULL
+)

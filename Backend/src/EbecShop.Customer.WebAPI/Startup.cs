@@ -33,6 +33,12 @@ namespace EbecShop.Customer.WebAPI
             services.AddMvc();
 
             services.AddTransient<ICustomerLogic, CustomerLogic>();
+
+            services.AddCors(options =>
+            {
+                options.AddPolicy("AllowAngularAppOrigin",
+                    builder => builder.WithOrigins("http://localhost:4200"));
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

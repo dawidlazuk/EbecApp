@@ -1,12 +1,12 @@
-﻿CREATE PROCEDURE [dbo].[GetTeamProductLimit]
+﻿CREATE PROCEDURE [dbo].GetTeamProductTypeLimit
 	@TeamId		INT,
-	@ProductId	INT
+	@ProductTypeId	INT
 AS
 BEGIN
 
 	SELECT Limit FROM [dbo].[TeamProductLimits]
 	WHERE
 		TeamId = @TeamId
-	AND ProductId = @ProductId;
+	AND ProductTypeId = @ProductTypeId;
 
 END

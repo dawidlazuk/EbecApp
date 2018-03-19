@@ -9,7 +9,7 @@ BEGIN
 	FROM [dbo].[Orders]
 	WHERE Id = @Id;
 
-	SELECT	[ProductId],
+	SELECT	[ProductTypeId],
 			[Amount]
 	FROM [dbo].[OrdersProducts]
 	WHERE OrderId = @Id;

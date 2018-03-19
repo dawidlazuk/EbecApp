@@ -12,12 +12,12 @@ namespace EbecShop.Model
         
         public List<Participant> Members { get; set; }
 
-        public Dictionary<Product,decimal> ProductLimits { get; set; }
+        public Dictionary<ProductType,decimal> ProductLimits { get; set; }
         
         public Team()
         {
             Members = new List<Participant>();
-            ProductLimits = new Dictionary<Product, decimal>();
+            ProductLimits = new Dictionary<ProductType, decimal>();
         }      
 
         public decimal AvailableBalance

@@ -66,6 +66,7 @@
     <Folder Include="Procedures\OrdersProducts" />
     <Folder Include="Procedures\Products" />
     <Folder Include="Procedures\TeamProductLimits" />
+    <Folder Include="Procedures\ProductTypes" />
   </ItemGroup>
   <ItemGroup>
     <Build Include="Tables\Orders.sql" />
@@ -87,6 +88,11 @@
     <Build Include="Procedures\Products\UpdateProduct.sql" />
     <Build Include="Procedures\TeamProductLimits\GetTeamProductLimit.sql" />
     <Build Include="Procedures\Orders\UpdateOrder.sql" />
+    <Build Include="Tables\ProductTypes.sql" />
+    <Build Include="Procedures\ProductTypes\InsertProductType.sql" />
+    <Build Include="Procedures\ProductTypes\UpdateProductType.sql" />
+    <Build Include="Procedures\ProductTypes\GetProductType.sql" />
+    <Build Include="Procedures\Products\GetProduct.sql" />
   </ItemGroup>
   <ItemGroup>
     <PostDeploy Include="Script.PostDeployment-Seed.sql" />

@@ -5,6 +5,4 @@
 	[Description] TEXT,
 	[Image] IMAGE,
 
-	[Price] MONEY NOT NULL,
-	[Amount] DECIMAL NOT NULL	
 )
