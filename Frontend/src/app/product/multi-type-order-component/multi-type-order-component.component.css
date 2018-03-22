@@ -5,13 +5,13 @@
 .panel-collapse .panel-body{
     padding-top: 5px;
     padding-bottom: 5px;
+    padding-right: 0;
+    padding-left: 0;
 }
 
 .panel-title{
     text-align: center;
 }
 
-/* app-single-type-order-component {
-    width: auto;
-    display: block;
-} */
+app-single-type-order-component {   
+}

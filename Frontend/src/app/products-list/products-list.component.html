@@ -1,15 +1,10 @@
-<p>
-  products-list works!
-</p>
-
-<div class="row">
-  <div class="col-md-3 col-xs-6" *ngFor="let product of products">
-    <app-product [product]='product'></app-product>
+<div class="panel panel-default">
+  <div class="panel-heading">Produkty</div>
+  <div class="panel-body">
+    <div class="row">
+      <div *ngFor="let product of products">
+        <app-product [product]='product'></app-product>
+      </div>
+    </div>
   </div>
 </div>
-
-<!-- <ul class="list-inline">
-  <li class="list-inline-item" *ngFor="let product of products">
-    <app-product [product]='product'></app-product>
-  </li>
-</ul>> -->

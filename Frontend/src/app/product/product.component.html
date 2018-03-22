@@ -1,17 +1,19 @@
-<div class="panel panel-primary" >
-  <div class="panel-heading" style="background: green;">{{product.name}}</div>
-  <div class="panel-body">
-    <div class="row">
-        <div class="col-sm-4">
-          <img [src]='product.imageUrl'/>    
-        </div>
-        <div class="col-sm-8">
-          <p>{{product.description}}</p>
-        </div>
-    </div>
-    <div class="row">
-      <app-single-type-order-component [type]='product.types[0]' *ngIf='product && product.types.length == 1'></app-single-type-order-component>
-      <app-multi-type-order-component [types]='product.types' *ngIf='product && product.types.length > 1'></app-multi-type-order-component> 
+<div class='component'>
+  <div class="panel panel-primary" >
+    <div class="panel-heading" style="background: green;">{{product.name}}</div>
+    <div class="panel-body">
+      <div class="row">
+          <div class="col-sm-4">
+            <img [src]='product.imageUrl'/>    
+          </div>
+          <div class="col-sm-8">
+            <p>{{product.description}}</p>
+          </div>
+      </div>
+      <div class="row">
+        <app-single-type-order-component [type]='product.types[0]' *ngIf='product && product.types.length == 1'></app-single-type-order-component>
+        <app-multi-type-order-component [types]='product.types' *ngIf='product && product.types.length > 1'></app-multi-type-order-component> 
+      </div>
     </div>
   </div>
 </div>

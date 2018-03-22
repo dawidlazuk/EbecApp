@@ -8,6 +8,7 @@ import { SingleTypeOrderComponentComponent } from './product/single-type-order-c
 import { MultiTypeOrderComponentComponent } from './product/multi-type-order-component/multi-type-order-component.component';
 import { ProductsListComponent } from './products-list/products-list.component';
 import { HttpClientModule } from '@angular/common/http';
+import { NavigationBarComponent } from './navigation-bar/navigation-bar.component';
 
 
 @NgModule({
@@ -16,7 +17,8 @@ import { HttpClientModule } from '@angular/common/http';
     ProductComponent,
     SingleTypeOrderComponentComponent,
     MultiTypeOrderComponentComponent,
-    ProductsListComponent
+    ProductsListComponent,
+    NavigationBarComponent    
   ],
   imports: [
     BrowserModule,

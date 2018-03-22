@@ -12,7 +12,7 @@ export class Product implements IProduct {
     constructor(public name: string,
                 public description: string,
                 public imageUrl: string,
-                public types: ProductType[] = [new ProductType()])
+                public types: ProductType[] = [new ProductType(null)])
     {
     }
 }

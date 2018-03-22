@@ -1,3 +1,35 @@
+.component{
+    padding: 2%;
+    display: block;
+    border-top: 1px solid green;
+    position: relative;
+}
+
 #quantity-order{
     width: 80px;
+}
+
+.span-1{
+    float: left;
+    width: 20%;
+}
+
+.span-2{
+    float: left;
+    /* width: 50%; */
+}
+
+.horizontal{
+    /* white-space: nowrap; */
+    /* width: 100%; */
+    width: auto;
+    display: block;
+}
+
+.right {
+    align-content: right;
+}
+
+.inline {
+    display: inline-block;
 }

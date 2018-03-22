@@ -7,13 +7,11 @@
     </div>
     <div id="types" class="panel-collapse collapse">
       <div class="panel-body">
-        <table>
-          <tbody>
-            <tr *ngFor='let type of types'>
+
+            <div *ngFor='let type of types'>
               <app-single-type-order-component [type]='type'></app-single-type-order-component>
-            </tr>
-          </tbody>
-        </table>
+            </div>
+
       </div>
     </div>
   </div>

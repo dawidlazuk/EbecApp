@@ -1,11 +1,20 @@
+import { IProduct } from "./product";
+
 export interface IProductType{
+    id: number;
     name: string;
-    amount: number;   
+    amount: number;  
+    price: number;
+ 
+    product: IProduct;
 }
 
 export class ProductType implements IProductType {
-    constructor(public name: string = "Typ",                
-                public amount: number = 0)
+    id: number;
+    constructor(public product: IProduct,
+                public name: string = "Typ",                
+                public amount: number = 0,
+                public price: number = 0)
     {
     }
 }

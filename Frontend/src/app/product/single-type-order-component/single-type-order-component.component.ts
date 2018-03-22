@@ -1,5 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { ProductType } from '../productType';
+import { ShoppingCartService } from '../../shopping-cart-service';
+import * as $ from "jquery";
 
 @Component({
   selector: 'app-single-type-order-component',
@@ -9,9 +11,14 @@ import { ProductType } from '../productType';
 export class SingleTypeOrderComponentComponent implements OnInit {
   @Input() type: ProductType;
 
-  constructor() { }
+  constructor(private _cart: ShoppingCartService) { }
 
   ngOnInit() {
   }
 
+  onAddProductToCart(amount: number){
+    console.log('amount: ',amount);
+    if(this._cart.addProduct(this.type, amount) == false)
+      alert('Product not added');
+  }
 }

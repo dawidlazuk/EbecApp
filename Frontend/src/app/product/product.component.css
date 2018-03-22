@@ -1,3 +1,10 @@
+.component{
+    width: 30%;
+    float: left;
+    margin: 1%;
+    align-content: center;
+}
+
 img {
     width: 100px;
 }

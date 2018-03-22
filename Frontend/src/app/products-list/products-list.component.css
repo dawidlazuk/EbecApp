@@ -2,3 +2,14 @@ app-product{
     width: auto;
     display: block;
 }
+
+.panel-heading{
+    font-weight: bold;
+    text-align: center;
+}
+
+@media screen and (max-width: 600px) {
+    app-product {
+        width: 100%;
+    }
+}
