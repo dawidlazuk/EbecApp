@@ -1,0 +1,13 @@
+app-shopping-cart{
+    position: fixed;
+    display: none;
+    width: 50%;
+    height: 100%;
+    top: 0;
+    left: 50%;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(57, 236, 96, 0.87);
+    z-index: 2;
+    cursor: pointer;
+}

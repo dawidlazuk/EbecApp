@@ -3,7 +3,7 @@
   <div class="panel-body">
     <div class="row">
       <div *ngFor="let product of products">
-        <app-product [product]='product'></app-product>
+        <app-product [product]='product' *ngIf='product && product.types.length > 0'></app-product>
       </div>
     </div>
   </div>

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 
 @Component({
   selector: 'app-navigation-bar',
@@ -6,10 +6,17 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./navigation-bar.component.css']
 })
 export class NavigationBarComponent implements OnInit {
+  @Output() onCartClicked = new EventEmitter<boolean>();
+  isCartShown: boolean = false;
 
   constructor() { }
 
   ngOnInit() {
+  }
+
+  showHideCart(){
+      this.isCartShown = !this.isCartShown;
+      this.onCartClicked.emit(this.isCartShown);
   }
 
 }

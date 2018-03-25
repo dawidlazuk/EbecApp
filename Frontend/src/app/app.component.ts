@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { ProductsService } from './services/products/products.service';
-import { ShoppingCartService } from './shopping-cart-service';
+import * as $ from "jquery";
+import { ShoppingCartService } from './services/shopping-cart-service';
 
 @Component({
   selector: 'app-root',
@@ -13,4 +14,8 @@ import { ShoppingCartService } from './shopping-cart-service';
 })
 export class AppComponent {
   title = 'app';
+
+  showHideCart(showCart: boolean){
+      $('app-shopping-cart').css("display", showCart ? "block" : "none");
+  }
 }

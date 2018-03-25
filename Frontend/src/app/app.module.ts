@@ -1,7 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 
-
 import { AppComponent } from './app.component';
 import { ProductComponent } from './product/product.component';
 import { SingleTypeOrderComponentComponent } from './product/single-type-order-component/single-type-order-component.component';
@@ -9,7 +8,7 @@ import { MultiTypeOrderComponentComponent } from './product/multi-type-order-com
 import { ProductsListComponent } from './products-list/products-list.component';
 import { HttpClientModule } from '@angular/common/http';
 import { NavigationBarComponent } from './navigation-bar/navigation-bar.component';
-
+import { ShoppingCartComponent } from './shopping-cart/shopping-cart.component';
 
 @NgModule({
   declarations: [
@@ -18,7 +17,8 @@ import { NavigationBarComponent } from './navigation-bar/navigation-bar.componen
     SingleTypeOrderComponentComponent,
     MultiTypeOrderComponentComponent,
     ProductsListComponent,
-    NavigationBarComponent    
+    NavigationBarComponent,
+    ShoppingCartComponent
   ],
   imports: [
     BrowserModule,

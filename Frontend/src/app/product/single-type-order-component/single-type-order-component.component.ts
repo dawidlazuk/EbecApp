@@ -1,7 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { ProductType } from '../productType';
-import { ShoppingCartService } from '../../shopping-cart-service';
 import * as $ from "jquery";
+import { ShoppingCartService } from '../../services/shopping-cart-service';
 
 @Component({
   selector: 'app-single-type-order-component',

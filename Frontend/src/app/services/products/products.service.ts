@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
-import { IProduct } from '../../product/product';
+import { IProduct, Product } from '../../product/product';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/observable/throw';
 import 'rxjs/add/operator/catch';
@@ -14,9 +14,24 @@ export class ProductsService {
   }
 
   getProducts() : Observable<IProduct[]> {
-    return this._http.get<IProduct[]>(this._productUrl)
-          .do(data => console.log('All: ' + JSON.stringify(data)))
+    return this._http.get<Product[]>(this._productUrl)
+          .do(this.mapProducts)
           .catch(this.handleError);
+  }
+
+  private mapProducts(products: IProduct[]){
+    //TODO delete
+    console.log('All: ' + JSON.stringify(products));
+
+    products.forEach(product => {
+      product.id = Number(product.id);    
+      product.types.forEach(type => {
+        type.product = product;
+        type.amount = Number(type.amount);
+        type.price = Number(type.price);
+        type.id = Number(type.id);
+      });   
+    }); 
   }
 
   private handleError(err: HttpErrorResponse){
