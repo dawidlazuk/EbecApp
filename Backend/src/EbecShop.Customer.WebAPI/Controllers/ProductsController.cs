@@ -26,6 +26,7 @@ namespace EbecShop.Customer.WebAPI.Controllers
         [HttpGet]
         public IEnumerable<Product> Get()
         {
+
             return customerLogic.GetProducts();
         }
 

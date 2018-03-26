@@ -50,7 +50,11 @@ namespace EbecShop.DataAccess.Repositiories
             var products = this.db.Query<Product>("SELECT * FROM Products");
 
             foreach (var product in products)
+            {
                 product.Types = this.db.Query<ProductType>("SELECT * FROM ProductTypes WHERE ProductId=@Id", new { Id = product.Id });
+                foreach (var type in product.Types)
+                    type.Product = product;
+            }
 
             return products;
         }
