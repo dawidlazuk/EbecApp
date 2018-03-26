@@ -1,26 +1,38 @@
 <div class='component'>
-  <div class="table-responsive">
-    <table class="table table-striped">
-      <thead>
-        <tr>
-          <td>Image</td>
-          <td>Name</td>
-          <td>Type</td>
-          <td>Amount</td>
-          <td>Price per each</td>
-          <td>Total price</td>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor='let productAmount of productsInCart'>
-          <td><img [src]="'http://cdn0.iconfinder.com/data/icons/black-logistics-icons/256/Add_product_arrow.png'"></td>
-          <td>{{productAmount.productType.product.name}}</td>
-          <td>{{productAmount.productType.name}}</td>
-          <td>{{productAmount.amount}}</td>
-          <td>{{productAmount.productType.price}}</td>
-          <td>{{productAmount.productType.price * productAmount.amount}}</td>
-        </tr>
-      </tbody>
-    </table>
+  <div class='panel panel-default'>
+    <div class='panel-heading'>
+      <label>Shopping cart</label>
+    </div>
+    <div class='panel-body'>
+      <div class="table-responsive">
+        <table class="table table-striped">
+          <thead>
+            <tr>
+              <td>Image</td>
+              <td>Name</td>
+              <td>Type</td>
+              <td>Amount</td>
+              <td>Price per each</td>
+              <td>Total price</td>
+              <td>Remove</td>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor='let productAmount of productsInCart'>
+              <td class='image-cell'><img [src]="'http://cdn0.iconfinder.com/data/icons/black-logistics-icons/256/Add_product_arrow.png'"></td>
+              <td>{{productAmount.productType.product.name}}</td>
+              <td>{{productAmount.productType.name}}</td>
+              <td>{{productAmount.amount}}</td>
+              <td>{{productAmount.productType.price}}</td>
+              <td>{{productAmount.productType.price * productAmount.amount}}</td>
+              <td><button (click)='removeProduct(productAmount.productType)'>X</button></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <button id='place-order-button' class='btn btn-default'>
+        Place order
+      </button>
+    </div>
   </div>
 </div>

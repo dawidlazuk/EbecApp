@@ -6,3 +6,17 @@ img {
 td.image-cell{
     width: 6%;
 }
+
+thead tr td{
+    font-weight: bold;
+}
+
+.panel-heading label{
+    text-align: center;
+    font-weight: bold;
+}
+
+
+#place-order-button{
+    float: right;
+}

@@ -1,4 +1,5 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import * as $ from 'jquery';
 
 @Component({
   selector: 'app-navigation-bar',
@@ -17,6 +18,9 @@ export class NavigationBarComponent implements OnInit {
   showHideCart(){
       this.isCartShown = !this.isCartShown;
       this.onCartClicked.emit(this.isCartShown);
+      if(this.isCartShown)
+        $("#cart-button").attr("class","btn btn-success");
+      else
+        $("#cart-button").attr("class","btn btn-default");      
   }
-
 }

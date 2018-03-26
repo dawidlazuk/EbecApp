@@ -3,8 +3,14 @@
       <div class="navbar-header">
         <a class="navbar-brand" href="#">EBEC CHALLENGE</a>    
       </div>
-      <ul class="nav navbar-nav">
-        <li><a href="#" (click)='showHideCart()'>Cart</a></li>
+      <ul class="nav navbar-nav navbar-left">
       </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li id='cart'>
+          <button id='cart-button' class="btn btn-default" (click)='showHideCart()'>
+            <img [src]="'http://cdn0.iconfinder.com/data/icons/black-logistics-icons/256/Add_product_arrow.png'" >
+          </button>
+        </li>
+      </ul>  
     </div>
   </nav>

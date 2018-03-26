@@ -1,4 +1,10 @@
 <app-navigation-bar (onCartClicked)="showHideCart($event)"></app-navigation-bar>
-<app-products-list></app-products-list>
 
-<app-shopping-cart></app-shopping-cart>
+<div>
+    <div class='wrapper'>
+        <app-products-list class='full-wide'></app-products-list>
+    </div>
+    <div class='wrapper'>
+        <app-shopping-cart></app-shopping-cart>
+    </div>
+</div>

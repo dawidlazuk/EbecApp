@@ -16,6 +16,13 @@ export class AppComponent {
   title = 'app';
 
   showHideCart(showCart: boolean){
-      $('app-shopping-cart').css("display", showCart ? "block" : "none");
+    if(showCart){
+      $('app-shopping-cart').css("display", "block");
+      $('app-products-list').attr("class","half-wide");
+    }
+    else{
+      $('app-shopping-cart').css("display", "none");
+      $('app-products-list').attr("class","full-wide");
+    }
   }
 }

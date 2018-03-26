@@ -21,4 +21,7 @@ export class ShoppingCartComponent implements OnInit {
       .subscribe(products => this.productsInCart = products)
   }
 
+  removeProduct(productType: IProductType){
+      this._cart.removeProduct(productType);
+  }
 }

@@ -1,6 +1,7 @@
 import { Injectable } from "@angular/core";
 import { IProductType, ProductType } from "../product/productType";
 import {BehaviorSubject} from 'rxjs/BehaviorSubject';
+import { Product } from "../product/product";
 
 @Injectable()
 export class ShoppingCartService {
@@ -23,7 +24,10 @@ export class ShoppingCartService {
 
     public addProduct(productType: IProductType, amount: number): Boolean {
         //TODO verify is the customer is able to order that amount
-        
+        amount = Number(amount);
+        if (amount <= 0)
+            return;
+
         if(productType.amount < amount)
         {
             console.log('Product has not been added, not enough amount');
@@ -36,31 +40,23 @@ export class ShoppingCartService {
             return false;
         }
         
-        console.log(productType.id)      ;
-        var productAlreadyInCart = this.products.filter(entry => ProductType.AreEqual(entry.productType, productType))[0];
+        var productAlreadyInCart = this.products.filter(entry => ProductType.AreEqual(entry.productType, productType))[0];  
 
-       
-        if(productAlreadyInCart != undefined)
-        {
-            console.log(productAlreadyInCart.productType.id);
-            productAlreadyInCart.amount = Number(productAlreadyInCart.amount) + Number(amount);
-        }
+        if(productAlreadyInCart != undefined)        
+            productAlreadyInCart.amount = productAlreadyInCart.amount + amount;        
         else
-        {
-            this.products.push({productType, amount});
-        }
+            this.products.push({productType, amount});        
         productType.amount -= amount;
 
-        // if(this.products.indexOf(product) < 0)
-        //     this.products.concat([product]);        
-        // this.amounts[product.id] += amount;
-        
         this._onCartChangedSource.next(this.products);
-
-        console.log('Product ' + productType.name + ' has been added to cart. Amount: ' + amount);
-        console.log('Cart',this.products);
         return true;
     }
 
-    
+    public removeProduct(productType: IProductType): void{
+        var index = this.products.findIndex(entry => ProductType.AreEqual(entry.productType, productType));
+        if(index > -1){
+            this.products.splice(index, 1);
+            this._onCartChangedSource.next(this.products);
+        }
+    }
 }
