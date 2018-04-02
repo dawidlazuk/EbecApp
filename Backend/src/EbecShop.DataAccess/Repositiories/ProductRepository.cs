@@ -19,17 +19,18 @@ namespace EbecShop.DataAccess.Repositiories
             parameters.Add("@Name",product.Name);
             parameters.Add("@Description",product.Description);
             parameters.Add("@Image",product.Image);
-            //parameters.Add("@Price",product.Price);
-            //parameters.Add("@Amount", product.Amount);
-            this.db.Execute("InsertProduct", parameters, commandType: CommandType.StoredProcedure);
-            product.Id = parameters.Get<int>("@Id");
 
+            using (var connection = CreateDbConnection())
+                connection.Execute("InsertProduct", parameters, commandType: CommandType.StoredProcedure);
+
+            product.Id = parameters.Get<int>("@Id");
             return product;
         }
 
         public Product Find(int id)
         {
-            return this.db.Query<Product>("SELECT * FROM Products WHERE Id = @Id", new { Id = id }).FirstOrDefault();
+            using (var connection = CreateDbConnection())
+                return connection.Query<Product>("SELECT * FROM Products WHERE Id = @Id", new { Id = id }).FirstOrDefault();
         }
 
         public Product Update(Product product)
@@ -39,39 +40,45 @@ namespace EbecShop.DataAccess.Repositiories
             parameters.Add("@Name", product.Name);
             parameters.Add("@Description", product.Description);
             parameters.Add("@Image", product.Image);
-            //parameters.Add("@Price", product.Price);
-            //parameters.Add("@Amount", product.Amount);
-            this.db.Execute("UpdateProduct", parameters, commandType: CommandType.StoredProcedure);
+
+            using (var connection = CreateDbConnection())
+                connection.Execute("UpdateProduct", parameters, commandType: CommandType.StoredProcedure);
+
             return product;
         }
 
         public IEnumerable<Product> GetAll()
         {
-            var products = this.db.Query<Product>("SELECT * FROM Products");
-
-            foreach (var product in products)
+            using (var connection = CreateDbConnection())
             {
-                product.Types = this.db.Query<ProductType>("SELECT * FROM ProductTypes WHERE ProductId=@Id", new { Id = product.Id });
-                foreach (var type in product.Types)
-                    type.Product = product;
-            }
+                var products = connection.Query<Product>("SELECT * FROM Products");
 
-            return products;
+                foreach (var product in products)
+                {
+                    product.Types = connection.Query<ProductType>("SELECT * FROM ProductTypes WHERE ProductId=@Id", new { Id = product.Id });
+                    foreach (var type in product.Types)
+                        type.Product = product;
+                }
+                return products;
+            }
         }
 
         public Product GetFullProduct(int id)
         {
-            using (var multipleResults = this.db.QueryMultiple("GetProduct", new { Id = id }, commandType: CommandType.StoredProcedure))
+            using (var connection = CreateDbConnection())
             {
-                var product = multipleResults.Read<Product>().Single();
-                var productTypes = multipleResults.Read<ProductType>().ToList();
-
-                if (product != null && productTypes != null)
+                using (var multipleResults = connection.QueryMultiple("GetProduct", new { Id = id }, commandType: CommandType.StoredProcedure))
                 {
-                    productTypes.ForEach(type => type.Product = product);
-                    product.Types = productTypes;
+                    var product = multipleResults.Read<Product>().Single();
+                    var productTypes = multipleResults.Read<ProductType>().ToList();
+
+                    if (product != null && productTypes != null)
+                    {
+                        productTypes.ForEach(type => type.Product = product);
+                        product.Types = productTypes;
+                    }
+                    return product;
                 }
-                return product;
             }
         }
 

@@ -18,33 +18,40 @@ namespace EbecShop.DataAccess.Repositiories
             parameters.Add("@Name", productType.Name);
             parameters.Add("@Price", productType.Price);
             parameters.Add("@Amount", productType.Amount);
-            this.db.Execute("InsertProductType", parameters, commandType: CommandType.StoredProcedure);
-            productType.Id = parameters.Get<int>("@Id");
 
+            using (var connection = CreateDbConnection())
+                connection.Execute("InsertProductType", parameters, commandType: CommandType.StoredProcedure);
+
+            productType.Id = parameters.Get<int>("@Id");
             return productType;
         }
 
         public ProductType Find(int id)
         {
-            return this.db.Query<ProductType>("SELECT * FROM ProductTypes WHERE Id = @Id", new { Id = id }).FirstOrDefault();
+            using (var connection = CreateDbConnection())
+                return connection.Query<ProductType>("SELECT * FROM ProductTypes WHERE Id = @Id", new { Id = id }).FirstOrDefault();
         }
 
         public IEnumerable<ProductType> GetAll()
         {
-            return this.db.Query<ProductType>("SELECT * FROM ProductTypes");
+            using (var connection = CreateDbConnection())
+                return connection.Query<ProductType>("SELECT * FROM ProductTypes");
         }
 
-        public ProductType GetFullProductType(int id)
+        public ProductType GetProductType(int id)
         {
-            ProductType productType;
-            using(var multipleResults = this.db.QueryMultiple("GetProductType", new { Id = id }, commandType: CommandType.StoredProcedure))
+            using (var connection = CreateDbConnection())
             {
-                productType = multipleResults.Read<ProductType>().Single();
-                var product = multipleResults.Read<Product>().Single();
-                if (productType != null)
-                    productType.Product = product;
+                ProductType productType;
+                using (var multipleResults = connection.QueryMultiple("GetProductType", new { Id = id }, commandType: CommandType.StoredProcedure))
+                {
+                    productType = multipleResults.Read<ProductType>().Single();
+                    var product = multipleResults.Read<Product>().Single();
+                    if (productType != null)
+                        productType.Product = product;
+                }
+                return productType;
             }
-            return productType;
         }
 
         public void Save(ProductType productType)
@@ -63,7 +70,9 @@ namespace EbecShop.DataAccess.Repositiories
             parameters.Add("@Name", productType.Name);
             parameters.Add("@Price", productType.Price);
             parameters.Add("@Amount", productType.Amount);
-            this.db.Execute("UpdateProductType", parameters, commandType: CommandType.StoredProcedure);
+
+            using (var connection = CreateDbConnection())
+                connection.Execute("UpdateProductType", parameters, commandType: CommandType.StoredProcedure);
            
             return productType;
         }

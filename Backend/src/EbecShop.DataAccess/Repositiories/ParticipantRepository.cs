@@ -20,15 +20,18 @@ namespace EbecShop.DataAccess.Repositiories
             parameters.Add("@Firstname", participant.Firstname);
             parameters.Add("@Surname", participant.Surname);
             parameters.Add("@TeamId", participant.TeamId);
-            this.db.Execute("InsertParticipant", parameters, commandType: CommandType.StoredProcedure);
-            participant.Id = parameters.Get<int>("@Id");
 
+            using (var connection = CreateDbConnection())
+                connection.Execute("InsertParticipant", parameters, commandType: CommandType.StoredProcedure);
+
+            participant.Id = parameters.Get<int>("@Id");
             return participant;
         }
 
         public Participant Find(int id)
         {
-            return this.db.Query<Participant>("SELECT * FROM Participants WHERE Id=@Id", new { Id = id }).FirstOrDefault();
+            using (var connection = CreateDbConnection())
+                return connection.Query<Participant>("SELECT * FROM Participants WHERE Id=@Id", new { Id = id }).FirstOrDefault();
         }
 
         public Participant Update(Participant participant)
@@ -38,19 +41,22 @@ namespace EbecShop.DataAccess.Repositiories
             parameters.Add("@Firstname", participant.Firstname);
             parameters.Add("@Surname", participant.Surname);
             parameters.Add("@TeamId", participant.TeamId);
-            this.db.Execute("UpdateParticipant", parameters, commandType: CommandType.StoredProcedure);
+
+            using (var connection = CreateDbConnection())
+                connection.Execute("UpdateParticipant", parameters, commandType: CommandType.StoredProcedure);
             return participant;
         }
 
         public IEnumerable<Participant> GetAll()
         {
-            return this.db.Query<Participant>("SELECT * FROM Participants").AsList();
+            using (var connection = CreateDbConnection())
+                return connection.Query<Participant>("SELECT * FROM Participants").AsList();
         }
 
         public Participant GetFullParticipant(int id)
         {
             var participant = Find(id);
-            participant.Team = DbContext.Teams.GetFullTeam(participant.TeamId);
+            participant.Team = DbContext.Teams.GetTeam(participant.TeamId);
             return participant;
         }
 

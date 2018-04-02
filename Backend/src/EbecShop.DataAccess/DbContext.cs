@@ -2,6 +2,9 @@
 using EbecShop.DataAccess.Repositiories.Interfaces;
 using System;
 using System.Collections.Generic;
+using System.Data;
+using System.Data.SqlClient;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -9,6 +12,9 @@ namespace EbecShop.DataAccess
 {
     public static class DbContext
     {
+        //TODO remove to config
+        const string connString = @"Server=.\SQLEXPRESS;Database=EbecShopDB;Trusted_Connection=True;";
+                
         public static ITeamRepository Teams { get; private set; }
         public static IParticipantRepository Participants { get; private set; }
         public static IOrderRepository Orders { get; private set; }
@@ -24,5 +30,27 @@ namespace EbecShop.DataAccess
             Products = new ProductRepository();
             ProductTypes = new ProductTypeRepository();
         }
+
+        public static void ExecuteAsTransaction(Action action)
+        {
+            using (var connection = new SqlConnection(connString))
+            {
+                connection.Open();
+                using (var transaction = connection.BeginTransaction())
+                {
+                    try
+                    {
+                        action?.Invoke();
+                        transaction.Commit();
+                    }
+                    catch (Exception ex)
+                    {
+                        transaction.Rollback();
+                        Debug.WriteLine(ex.ToString());
+                    }
+                }
+            }
+        }
+
     }
 }

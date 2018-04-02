@@ -37,8 +37,10 @@ namespace EbecShop.Customer.WebAPI
 
             services.AddCors(options =>
             {
-                options.AddPolicy("AllowAngularAppOrigin",
-                    builder => builder.WithOrigins("http://localhost:4200"));
+            options.AddPolicy("AllowAngularAppOrigin",
+                builder => builder.WithOrigins("http://localhost:4200")
+                                .AllowAnyMethod()
+                                .AllowAnyHeader());
             });
         }
 

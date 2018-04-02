@@ -93,6 +93,8 @@
     <Build Include="Procedures\ProductTypes\UpdateProductType.sql" />
     <Build Include="Procedures\ProductTypes\GetProductType.sql" />
     <Build Include="Procedures\Products\GetProduct.sql" />
+    <Build Include="Procedures\Orders\GetOrderByQuery.sql" />
+    <Build Include="Procedures\OrdersProducts\GetProductsOfOrder.sql" />
   </ItemGroup>
   <ItemGroup>
     <PostDeploy Include="Script.PostDeployment-Seed.sql" />

@@ -12,7 +12,7 @@ namespace EbecShop.DataAccess.Repositiories.Interfaces
         Team Update(Team team);
         void Remove(int id);
 
-        Team GetFullTeam(int id);
+        Team GetTeam(int id);
         void Save(Team team);
 
         IDictionary<Product, decimal> GetTeamLimits(int teamId);

@@ -11,6 +11,6 @@ namespace EbecShop.DataAccess.Repositiories.Abstract
     {
         const string connString = @"Server=.\SQLEXPRESS;Database=EbecShopDB;Trusted_Connection=True;";
 
-        protected IDbConnection db = new SqlConnection(connString);
+        protected IDbConnection CreateDbConnection() => new SqlConnection(connString);
     }
 }

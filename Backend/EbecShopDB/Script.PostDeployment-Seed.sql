@@ -10,7 +10,7 @@ Post-Deployment Script Template
 --------------------------------------------------------------------------------------
 */
 
-INSERT [dbo].[Teams] ([Name],[Balance],[BlockedBalance]) VALUES ('Testowy', 0.0, 0.0);
+INSERT [dbo].[Teams] ([Name],[Balance],[BlockedBalance]) VALUES ('Testowy', 100.0, 0.0);
 INSERT [dbo].[Teams] ([Name],[Balance],[BlockedBalance]) VALUES ('Best', -20.0, 0.0);
 INSERT [dbo].[Teams] ([Name],[Balance],[BlockedBalance]) VALUES ('Ebecowcy', 10.0, 0.0);
 INSERT [dbo].[Teams] ([Name],[Balance],[BlockedBalance]) VALUES ('Czwarty', 100.0, 0.0);
@@ -28,6 +28,10 @@ INSERT [dbo].[Products] ([Name],[Description]) VALUES ('Deska','W coś trzeba gw
 INSERT [dbo].[ProductTypes] ([Name],[ProductId],[Price],[Amount]) VALUES ('Dlugi', 1, 1.0, 100.0);
 INSERT [dbo].[ProductTypes] ([Name],[ProductId],[Price],[Amount]) VALUES ('Krotki', 1, 3.0, 100.5);
 INSERT [dbo].[ProductTypes] ([Name],[ProductId],[Price],[Amount]) VALUES ('Szeroka', 3, 2.0, 200);
+
+INSERT [dbo].[TeamProductLimits] ([TeamId],[ProductTypeId],[Limit]) VALUES (1, 1, 100)
+INSERT [dbo].[TeamProductLimits] ([TeamId],[ProductTypeId],[Limit]) VALUES (1, 2, 100)
+INSERT [dbo].[TeamProductLimits] ([TeamId],[ProductTypeId],[Limit]) VALUES (1, 3, 100)
 
 
 

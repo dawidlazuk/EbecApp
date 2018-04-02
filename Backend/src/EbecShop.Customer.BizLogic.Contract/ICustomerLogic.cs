@@ -25,6 +25,11 @@ namespace EbecShop.Customer.BizLogic.Contract
             IDictionary<ProductType, decimal> products
             );
 
+        Order CreateOrder(
+            int teamId,
+            IDictionary<int, decimal> products
+            );
+
         Order CancelOrder(Order order);
 
         IEnumerable<Order> GetTeamOrders(Team team);

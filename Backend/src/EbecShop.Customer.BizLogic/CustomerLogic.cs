@@ -6,6 +6,8 @@ using System;
 using EbecShop.Model.Enums;
 using EbecShop.DataAccess.Queries;
 using System.Linq;
+using System.Transactions;
+using System.Diagnostics;
 
 namespace EbecShop.Customer.BizLogic
 {
@@ -20,6 +22,21 @@ namespace EbecShop.Customer.BizLogic
 
         #region Orders
 
+        public Order CreateOrder(int teamId, IDictionary<int, decimal> productsIds)
+        {
+            Team team = DbContext.Teams.GetTeam(teamId);
+            Debug.Assert(team != null);
+
+            var products = new Dictionary<ProductType, decimal>();
+            foreach(var productAmount in productsIds)
+            {
+                var product = DbContext.ProductTypes.GetProductType(productAmount.Key);
+                Debug.Assert(product != null);
+                products.Add(product, productAmount.Value);
+            }
+            return CreateOrder(team, products);
+        }
+
         public Order CreateOrder(Team team, IDictionary<ProductType, decimal> products)
         {
             var order = new Order()
@@ -30,19 +47,23 @@ namespace EbecShop.Customer.BizLogic
 
             CheckProductsLimits(team, order, products);
 
-            var orderValue = products.Sum(pa => pa.Key.Price * pa.Value);
-            if (orderValue < team.AvailableBalance)
+            order.Products = products;
+            if (order.Products.Any())
             {
-                //using (var txScope = new TransactionScope())
+                var orderValue = products.Sum(pa => pa.Key.Price * pa.Value);
+                if (orderValue < team.AvailableBalance)
                 {
-                    team.BlockedBalance += orderValue;       
-                    order = DbContext.Orders.Add(order);
-                    team = DbContext.Teams.Update(team);
+                    DbContext.ExecuteAsTransaction(() =>
+                    {
+                        team.BlockedBalance += orderValue;
+                        order = DbContext.Orders.Add(order);
+                        team = DbContext.Teams.Update(team);
+                    });
                 }
-            }
-            else
-            {
-                throw new ArgumentException("Team has not enough funds to create order.");
+                else
+                {
+                    throw new ArgumentException("Team has not enough funds to create order.");
+                }
             }
             return order;
         }
@@ -91,6 +112,7 @@ namespace EbecShop.Customer.BizLogic
 
         public IEnumerable<Order> GetTeamOrders(Team team)
         {
+
             return DbContext.Orders.GetByQuery(new OrderQuery { TeamId = team.Id });
         }
 
@@ -107,6 +129,7 @@ namespace EbecShop.Customer.BizLogic
         {
             return DbContext.Products.GetFullProduct(id);
         }
+
 
         #endregion
 

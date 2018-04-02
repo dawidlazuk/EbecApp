@@ -18,12 +18,14 @@ namespace EbecShop.DataAccess.Repositiories
     {
         public Team Find(int id)
         {
-            return this.db.Query<Team>($"SELECT * FROM Teams t WHERE t.Id = @Id", new { Id = id }).FirstOrDefault();
+            using (var connection = CreateDbConnection())
+                return connection.Query<Team>($"SELECT * FROM Teams t WHERE t.Id = @Id", new { Id = id }).FirstOrDefault();
         }
 
         public IEnumerable<Team> GetAll()
         {
-            return this.db.Query<Team>("SELECT * FROM Teams").AsList();
+            using (var connection = CreateDbConnection())
+                return connection.Query<Team>("SELECT * FROM Teams").AsList();
         }
 
         public Team Add(Team team)
@@ -33,37 +35,43 @@ namespace EbecShop.DataAccess.Repositiories
             parameters.Add("@Name", team.Name);
             parameters.Add("@Balance", team.Balance);
             parameters.Add("@BlockedBalance", team.BlockedBalance);
-            this.db.Execute("InsertTeam", parameters, commandType: CommandType.StoredProcedure);
-            team.Id = parameters.Get<int>("@Id");
 
+            using (var connection = CreateDbConnection())
+                connection.Execute("InsertTeam", parameters, commandType: CommandType.StoredProcedure);
+
+            team.Id = parameters.Get<int>("@Id");
             return team;
         }
 
         public Team Update(Team team)
         {
-            this.db.Execute("UpdateTeam", team, commandType: CommandType.StoredProcedure);
+            using (var connection = CreateDbConnection())
+                connection.Execute("UpdateTeam", team, commandType: CommandType.StoredProcedure);
             return team;
         }
 
         public void Remove(int id)
         {
-            this.db.Execute("DELETE FROM Teams WHERE Id = @Id", new { Id = id });
+            using (var connection = CreateDbConnection())
+                connection.Execute("DELETE FROM Teams WHERE Id = @Id", new { Id = id });
         }
               
-        public Team GetFullTeam(int id)
+        public Team GetTeam(int id)
         {
-            using (var multipleResults = this.db.QueryMultiple("GetTeam", new { Id = id }, commandType: CommandType.StoredProcedure))
+            using (var connection = CreateDbConnection())
             {
-                var team = multipleResults.Read<Team>().SingleOrDefault();
-                var members = multipleResults.Read<Participant>().ToList();
-
-                if(team != null && members != null)
+                using (var multipleResults = connection.QueryMultiple("GetTeam", new { Id = id }, commandType: CommandType.StoredProcedure))
                 {
-                    members.ForEach(p => p.Team = team);
-                    team.Members.AddRange(members);
-                }
+                    var team = multipleResults.Read<Team>().SingleOrDefault();
+                    var members = multipleResults.Read<Participant>().ToList();
 
-                return team;
+                    if (team != null && members != null)
+                    {
+                        members.ForEach(p => p.Team = team);
+                        team.Members.AddRange(members);
+                    }
+                    return team;
+                }
             }
         }
 
@@ -103,7 +111,9 @@ namespace EbecShop.DataAccess.Repositiories
         {
             IDictionary<Product, decimal> result = new Dictionary<Product, decimal>();
 
-            var limits = this.db.Query<Tuple<int, decimal>>("SELECT ProductTypeId, Limit FROM TeamProductLimits WHERE TeamId = @Id", new { Id = teamId }).ToList();
+            List<Tuple<int, decimal>> limits;
+            using (var connection = CreateDbConnection())
+                limits = connection.Query<Tuple<int, decimal>>("SELECT ProductTypeId, Limit FROM TeamProductLimits WHERE TeamId = @Id", new { Id = teamId }).ToList();
 
             foreach(var limit in limits)
             {
@@ -122,14 +132,15 @@ namespace EbecShop.DataAccess.Repositiories
 
         public decimal GetProductLimitForTeam(int teamId, int productTypeId)
         {
-            return this.db.Query<decimal>(
-                "GetTeamProductTypeLimit", 
-                new {
-                    TeamId = teamId,
-                    ProductTypeId = productTypeId
-                },
-                commandType: CommandType.StoredProcedure)
-                    .FirstOrDefault();
+            using (var connection = CreateDbConnection())
+                return connection.Query<decimal>(
+                    "GetTeamProductTypeLimit", 
+                    new {
+                        TeamId = teamId,
+                        ProductTypeId = productTypeId
+                    },
+                    commandType: CommandType.StoredProcedure)
+                        .FirstOrDefault();
         }
     }
 }

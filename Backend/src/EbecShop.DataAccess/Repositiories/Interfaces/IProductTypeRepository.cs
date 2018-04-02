@@ -11,7 +11,7 @@ namespace EbecShop.DataAccess.Repositiories.Interfaces
         ProductType Add(ProductType productType);
         ProductType Update(ProductType productType);
 
-        ProductType GetFullProductType(int id);
+        ProductType GetProductType(int id);
         void Save(ProductType productType);
     }
 }

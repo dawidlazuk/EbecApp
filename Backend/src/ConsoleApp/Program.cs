@@ -22,7 +22,7 @@ namespace ConsoleApp
            
             for(int i = 1; i <= teams.Count(); ++i)
             {
-                var team = teamRepository.GetFullTeam(i);
+                var team = teamRepository.GetTeam(i);
                 Console.WriteLine($"Id: {team.Id}, Name: {team.Name}");
                 Console.WriteLine($"Single select: {teamRepository.Find(team.Id).Name}");
             }

@@ -25,12 +25,12 @@
               <td>{{productAmount.amount}}</td>
               <td>{{productAmount.productType.price}}</td>
               <td>{{productAmount.productType.price * productAmount.amount}}</td>
-              <td><button (click)='removeProduct(productAmount.productType)'>X</button></td>
+              <td><button class="btn btn-default" (click)='removeProduct(productAmount.productType)'>X</button></td>
             </tr>
           </tbody>
         </table>
       </div>
-      <button id='place-order-button' class='btn btn-default'>
+      <button id='place-order-button' class='btn btn-default' (click)='makeOrder()'>
         Place order
       </button>
     </div>

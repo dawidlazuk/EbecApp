@@ -14,38 +14,42 @@ namespace EbecShop.DataAccess.Repositiories
     {
         public Order Get(int id)
         {
-            return this.db.Query<Order>("SELECT * FROM Orders WHERE Id=@Id", new { Id = id }).FirstOrDefault();
+            using(var connection = CreateDbConnection())
+                return connection.Query<Order>("SELECT * FROM Orders WHERE Id=@Id", new { Id = id }).FirstOrDefault();
         }
 
         public IEnumerable<Order> GetAll()
         {
-            return this.db.Query<Order>("SELECT * FROM Orders");
+            using (var connection = CreateDbConnection())
+                return connection.Query<Order>("SELECT * FROM Orders");
         }
 
         public IEnumerable<Order> GetByQuery(OrderQuery query)
         {
-            return this.db.Query<Order>(query.GetSqlQuery(), query).ToList();
+            using (var connection = CreateDbConnection())
+                return query.ExecuteAsync(connection).Result;
         }
         
         public Order Add(Order order)
         {
             //VS2017
             //using (var txScope = new TransactionScope())
+            using (var connection = CreateDbConnection())            
             {
                 var parameters = new DynamicParameters();
                 parameters.Add("@Id", value: order.Id, dbType: System.Data.DbType.Int32, direction: System.Data.ParameterDirection.InputOutput);
                 parameters.Add("@Status", order.Status);
                 parameters.Add("@TeamId", order.TeamId);
-                this.db.Execute("InsertOrder", parameters, commandType: System.Data.CommandType.StoredProcedure);
+                connection.Execute("InsertOrder", parameters, commandType: System.Data.CommandType.StoredProcedure);
                 order.Id = parameters.Get<int>("@Id");
 
                 foreach (var product in order.Products)
                 {
-                    var productParameter = new DynamicParameters();
-                    productParameter.Add("@OrderId", order.Id);
-                    productParameter.Add("@ProductTypeId", product.Key.Id);
-                    productParameter.Add("@Amount", product.Value);
-                    this.db.Execute("InsertOrderProduct", parameters, commandType: System.Data.CommandType.StoredProcedure);
+                    var productParameters = new DynamicParameters();
+                    productParameters.Add("@OrderId", order.Id);
+                    productParameters.Add("@ProductTypeId", product.Key.Id);
+                    productParameters.Add("@Amount", product.Value);
+                    connection.Execute("InsertOrderProduct", productParameters, commandType: System.Data.CommandType.StoredProcedure);
                 }
             }
             return order;
@@ -58,11 +62,14 @@ namespace EbecShop.DataAccess.Repositiories
         /// <returns></returns>
         public Order Update(Order order)
         {
+
             var parameters = new DynamicParameters();
             parameters.Add("@Id", order.Id);
             parameters.Add("@Status", order.Status);
             parameters.Add("@TeamId", order.TeamId);
-            this.db.Execute("UpdateOrder", parameters, commandType: System.Data.CommandType.StoredProcedure);
+
+            using (var connection = CreateDbConnection())
+                connection.Execute("UpdateOrder", parameters, commandType: System.Data.CommandType.StoredProcedure);
 
             //TODO: Maybe update products in the order. To consider;
 
@@ -71,22 +78,25 @@ namespace EbecShop.DataAccess.Repositiories
 
         public Order GetFullOrder(int id)
         {
-            using (var multipleResults = this.db.QueryMultiple("GetOrder", new { Id = id }, commandType: System.Data.CommandType.StoredProcedure))
+            using (var connection = CreateDbConnection())
             {
-                var order = multipleResults.Read<Order>().SingleOrDefault();
-                var products = multipleResults.Read<Tuple<int, decimal>>().ToList();
-                
-                if(order != null && products != null)
+                using (var multipleResults = connection.QueryMultiple("GetOrder", new { Id = id }, commandType: System.Data.CommandType.StoredProcedure))
                 {
-                    foreach(var productAmount in products)
+                    var order = multipleResults.Read<Order>().SingleOrDefault();
+                    var products = multipleResults.Read<Tuple<int, decimal>>().ToList();
+
+                    if (order != null && products != null)
                     {
-                        order.Products.Add(new KeyValuePair<ProductType, decimal>(
-                                DbContext.ProductTypes.Find(productAmount.Item1),
-                                productAmount.Item2
-                            ));
+                        foreach (var productAmount in products)
+                        {
+                            order.Products.Add(new KeyValuePair<ProductType, decimal>(
+                                    DbContext.ProductTypes.Find(productAmount.Item1),
+                                    productAmount.Item2
+                                ));
+                        }
                     }
+                    return order;
                 }
-                return order;
             }
         }
 

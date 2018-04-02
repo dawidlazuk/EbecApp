@@ -2,6 +2,7 @@
 	@Id		INT
 AS
 BEGIN
+	DECLARE @ProductId INT;
 
 	SELECT	[Id],
 			[ProductId],
@@ -11,11 +12,12 @@ BEGIN
 	FROM [dbo].[ProductTypes]
 	WHERE Id = @Id;
 
-	SELECT	product.Id,
-			product.Name,
-			product.Description,
-			product.Image 
-	FROM [dbo].[Products] product
-	JOIN [dbo].[ProductTypes] productType ON productType.ProductId = product.Id
-	WHERE productType.ProductId = @Id;
+	SET @ProductId = (SELECT ProductId FROM dbo.ProductTypes WHERE Id = @Id);
+
+	SELECT	Id,
+			Name,
+			Description,
+			Image 
+	FROM [dbo].[Products]
+	WHERE Id = @ProductId;
 END
