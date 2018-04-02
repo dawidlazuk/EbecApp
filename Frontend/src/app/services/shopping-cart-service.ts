@@ -59,4 +59,9 @@ export class ShoppingCartService {
             this._onCartChangedSource.next(this.products);
         }
     }
+
+    public clear(): void{
+        this.products = [];
+        this._onCartChangedSource.next(this.products);
+    }
 }

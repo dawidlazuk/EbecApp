@@ -5,6 +5,7 @@ import { IProductType } from '../product/productType';
 import * as $ from 'jquery';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
+import { OrdersService } from '../services/orders/orders.service';
 
 @Component({
   selector: 'app-shopping-cart',
@@ -13,13 +14,12 @@ import { Observable } from 'rxjs/Observable';
 })
 export class ShoppingCartComponent implements OnInit {
 
-  makeOrderUrl = "http://localhost:49906/api/orders"
 
   cartSubscription: Subscription;
   productsInCart: {productType: IProductType, amount: number}[];
   
   constructor(private _cart: ShoppingCartService,
-              private _http: HttpClient) { 
+              private _orders: OrdersService) { 
     console.log(_cart);
   }
 
@@ -33,31 +33,14 @@ export class ShoppingCartComponent implements OnInit {
   }
 
   makeOrder(){
-    console.log("makeOrderPressed");
-    console.log("data: " + this.createOrderRequest());
-    $.post({
-      // type: "POST",
-      contentType: 'application/json',
-      url: this.makeOrderUrl,
-      data: this.createOrderRequest()
-    })
+    this._orders.sendNewOrder(1, this.productsInCart);
+    this._cart.clear();    
 
     // this._http.post(this.makeOrderUrl,this.createOrderRequest())
     //   .catch(this.handleError);
   }
 
-  createOrderRequest(): string {    
-    var products: {[index: number]:number} = {}; 
-    this.productsInCart.forEach(productAmount => 
-      products[productAmount.productType.id] = productAmount.amount
-    );
-    let order: any =
-    {
-      "teamId": "1", //TODO change
-      "products": products
-    }
-    return JSON.stringify(order);
-  }
+  
 
   private handleError(err: HttpErrorResponse){
     console.log(err.message);

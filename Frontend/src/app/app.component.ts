@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { ProductsService } from './services/products/products.service';
 import * as $ from "jquery";
 import { ShoppingCartService } from './services/shopping-cart-service';
+import { OrdersService } from './services/orders/orders.service';
 
 @Component({
   selector: 'app-root',
@@ -9,7 +10,8 @@ import { ShoppingCartService } from './services/shopping-cart-service';
   styleUrls: ['./app.component.css'],
   providers: [
     ProductsService,
-    ShoppingCartService
+    ShoppingCartService,
+    OrdersService
   ]
 })
 export class AppComponent {
