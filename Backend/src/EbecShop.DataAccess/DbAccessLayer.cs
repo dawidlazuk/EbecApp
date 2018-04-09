@@ -11,7 +11,6 @@ namespace EbecShop.DataAccess
             {
                 team.BlockedBalance += order.Value;
                 order = DbContext.Orders.Add(order, connection);
-                throw new Exception();
                 team = DbContext.Teams.Update(team, connection);
             });
         }
