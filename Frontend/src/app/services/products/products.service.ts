@@ -13,16 +13,15 @@ export class ProductsService {
   constructor(private _http: HttpClient) {    
   }
 
-  getProducts() : Observable<IProduct[]> {
+  getProducts() : Observable<IProduct[]> 
+  {
     return this._http.get<Product[]>(this._productUrl)
           .do(this.mapProducts)
           .catch(this.handleError);
   }
 
-  private mapProducts(products: IProduct[]){
-    //TODO delete
-    console.log('All: ' + JSON.stringify(products));
-
+  private mapProducts(products: IProduct[])
+  {    
     products.forEach(product => {
       product.id = Number(product.id);    
       product.types.forEach(type => {

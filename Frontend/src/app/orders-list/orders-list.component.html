@@ -1,0 +1,33 @@
+<div class='component'>
+  <div class='panel panel-default'>
+    <div class='panel-heading'>
+      <label>Orders</label>
+    </div>
+    <div class='panel-body'>
+      <div class="table-responsive">
+        <table class="table table-striped">
+          <thead>
+            <tr>
+              <td>Id</td>
+              <td>Status</td>
+              <td>Price</td>
+              <td>Created</td>
+              <td>Modified</td>
+              <td>Details</td>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor='let order of orders'>
+              <td>{{order.id}}</td>
+              <td class='{{OrderStatus[order.status]}}'>{{order.status | orderStatusToDisplayName}}</td>
+              <td>{{order.value}}</td>
+              <td>{{order.createdDate}}</td>
+              <td>{{order.modifiedDate}}</td>
+              <td><button class="btn btn-default" (click)='removeProduct(productAmount.productType)'>Details</button></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>

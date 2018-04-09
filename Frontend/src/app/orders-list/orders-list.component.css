@@ -1,0 +1,23 @@
+.new {
+    color: dodgerblue;
+}
+
+.inProgress{
+    color: goldenrod;
+}
+
+.readyToReceive {
+    color: green;
+}
+
+.finished {
+    color: olivedrab;
+}
+
+.cancelled {
+    color: red;
+}
+
+.cancelledByOrganisers {
+    color: red;
+}
