@@ -6,7 +6,7 @@ AS
 BEGIN
 
 	SELECT	[Id],
-			[Status]
+			[Status],
 			[TeamId]
 	FROM [dbo].[Orders]
 	WHERE (@Id IS NULL OR Id = @Id)
