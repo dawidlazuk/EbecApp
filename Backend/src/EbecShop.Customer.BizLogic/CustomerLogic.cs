@@ -49,21 +49,11 @@ namespace EbecShop.Customer.BizLogic
 
             order.Products = products;
             if (order.Products.Any())
-            {
-                var orderValue = products.Sum(pa => pa.Key.Price * pa.Value);
-                if (orderValue < team.AvailableBalance)
-                {
-                    DbContext.ExecuteAsTransaction(() =>
-                    {
-                        team.BlockedBalance += orderValue;
-                        order = DbContext.Orders.Add(order);
-                        team = DbContext.Teams.Update(team);
-                    });
-                }
-                else
-                {
-                    throw new ArgumentException("Team has not enough funds to create order.");
-                }
+            {                
+                if (order.Value < team.AvailableBalance)
+                    DbAccessLayer.AddNewOrderToDatabase(team, order);                
+                else                
+                    throw new ArgumentException("Team has not enough funds to create order.");                
             }
             return order;
         }

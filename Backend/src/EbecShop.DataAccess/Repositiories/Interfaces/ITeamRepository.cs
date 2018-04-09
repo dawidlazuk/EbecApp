@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-
+using System.Data;
 using EbecShop.Model;
 
 namespace EbecShop.DataAccess.Repositiories.Interfaces
@@ -9,7 +9,7 @@ namespace EbecShop.DataAccess.Repositiories.Interfaces
         Team Find(int id);
         IEnumerable<Team> GetAll();
         Team Add(Team team);
-        Team Update(Team team);
+        Team Update(Team team, IDbConnection connection = null);
         void Remove(int id);
 
         Team GetTeam(int id);

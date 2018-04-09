@@ -15,6 +15,7 @@ using System;
 namespace EbecShop.DataAccess.Repositiories
 {
     public class TeamRepository : Repository, ITeamRepository
+
     {
         public Team Find(int id)
         {
@@ -43,10 +44,9 @@ namespace EbecShop.DataAccess.Repositiories
             return team;
         }
 
-        public Team Update(Team team)
+        public Team Update(Team team, IDbConnection connection = null)
         {
-            using (var connection = CreateDbConnection())
-                connection.Execute("UpdateTeam", team, commandType: CommandType.StoredProcedure);
+            PerformOnDatabase(conn => conn.Execute("UpdateTeam", team, commandType: CommandType.StoredProcedure), connection);
             return team;
         }
 

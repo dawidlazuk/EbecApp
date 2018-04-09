@@ -1,6 +1,7 @@
 ﻿using EbecShop.Model.Abstract;
 using EbecShop.Model.Enums;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace EbecShop.Model
 {
@@ -33,5 +34,7 @@ namespace EbecShop.Model
         {
             Products = new Dictionary<ProductType,decimal>();
         }
+
+        public decimal Value => Products.Sum(pa => pa.Key.Price * pa.Value);
     }
 }

@@ -7,6 +7,7 @@ using EbecShop.Model;
 using Dapper;
 using EbecShop.DataAccess.Repositiories.Abstract;
 using EbecShop.DataAccess.Queries;
+using System.Data;
 
 namespace EbecShop.DataAccess.Repositiories
 {
@@ -30,28 +31,31 @@ namespace EbecShop.DataAccess.Repositiories
                 return query.ExecuteAsync(connection).Result;
         }
         
-        public Order Add(Order order)
+        public Order Add(Order order, IDbConnection connection = null)
         {
             //VS2017
             //using (var txScope = new TransactionScope())
-            using (var connection = CreateDbConnection())            
-            {
-                var parameters = new DynamicParameters();
-                parameters.Add("@Id", value: order.Id, dbType: System.Data.DbType.Int32, direction: System.Data.ParameterDirection.InputOutput);
-                parameters.Add("@Status", order.Status);
-                parameters.Add("@TeamId", order.TeamId);
-                connection.Execute("InsertOrder", parameters, commandType: System.Data.CommandType.StoredProcedure);
-                order.Id = parameters.Get<int>("@Id");
 
-                foreach (var product in order.Products)
+            PerformOnDatabase(
+                (conn) =>
                 {
-                    var productParameters = new DynamicParameters();
-                    productParameters.Add("@OrderId", order.Id);
-                    productParameters.Add("@ProductTypeId", product.Key.Id);
-                    productParameters.Add("@Amount", product.Value);
-                    connection.Execute("InsertOrderProduct", productParameters, commandType: System.Data.CommandType.StoredProcedure);
-                }
-            }
+                    var parameters = new DynamicParameters();
+                    parameters.Add("@Id", value: order.Id, dbType: System.Data.DbType.Int32, direction: System.Data.ParameterDirection.InputOutput);
+                    parameters.Add("@Status", order.Status);
+                    parameters.Add("@TeamId", order.TeamId);
+                    conn.Execute("InsertOrder", parameters, commandType: System.Data.CommandType.StoredProcedure);
+                    order.Id = parameters.Get<int>("@Id");
+
+                    foreach (var product in order.Products)
+                    {
+                        var productParameters = new DynamicParameters();
+                        productParameters.Add("@OrderId", order.Id);
+                        productParameters.Add("@ProductTypeId", product.Key.Id);
+                        productParameters.Add("@Amount", product.Value);
+                        conn.Execute("InsertOrderProduct", productParameters, commandType: System.Data.CommandType.StoredProcedure);
+                    }
+                },
+                connection);
             return order;
         }
         
@@ -60,7 +64,7 @@ namespace EbecShop.DataAccess.Repositiories
         /// </summary>
         /// <param name="order"></param>
         /// <returns></returns>
-        public Order Update(Order order)
+        public Order Update(Order order, IDbConnection connection = null)
         {
 
             var parameters = new DynamicParameters();
@@ -68,8 +72,8 @@ namespace EbecShop.DataAccess.Repositiories
             parameters.Add("@Status", order.Status);
             parameters.Add("@TeamId", order.TeamId);
 
-            using (var connection = CreateDbConnection())
-                connection.Execute("UpdateOrder", parameters, commandType: System.Data.CommandType.StoredProcedure);
+            PerformOnDatabase(conn => connection.Execute("UpdateOrder", parameters, commandType: System.Data.CommandType.StoredProcedure),
+                connection);
 
             //TODO: Maybe update products in the order. To consider;
 
@@ -100,13 +104,12 @@ namespace EbecShop.DataAccess.Repositiories
             }
         }
 
-        public void Save(Order order)
+        public void Save(Order order, IDbConnection connection = null)
         {
             if (order.IsNew)
-                this.Add(order);
+                this.Add(order, connection);
             else
-                this.Update(order);        
+                this.Update(order, connection);        
         }
-
     }
 }

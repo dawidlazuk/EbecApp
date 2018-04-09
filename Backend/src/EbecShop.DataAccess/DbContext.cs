@@ -31,7 +31,7 @@ namespace EbecShop.DataAccess
             ProductTypes = new ProductTypeRepository();
         }
 
-        public static void ExecuteAsTransaction(Action action)
+        public static void ExecuteAsTransaction(Action<IDbConnection> action)
         {
             using (var connection = new SqlConnection(connString))
             {
@@ -40,7 +40,7 @@ namespace EbecShop.DataAccess
                 {
                     try
                     {
-                        action?.Invoke();
+                        action?.Invoke(connection);
                         transaction.Commit();
                     }
                     catch (Exception ex)
