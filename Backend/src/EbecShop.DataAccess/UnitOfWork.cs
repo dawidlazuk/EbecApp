@@ -62,7 +62,7 @@ namespace EbecShop.DataAccess
             finally
             {
                 _transaction.Dispose();
-                _transaction.Connection.BeginTransaction();
+                _transaction = _connection.BeginTransaction();
                 resetRepositories();
             }
         }
