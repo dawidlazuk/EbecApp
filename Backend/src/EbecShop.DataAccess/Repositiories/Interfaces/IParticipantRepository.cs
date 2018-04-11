@@ -12,8 +12,7 @@ namespace EbecShop.DataAccess.Repositiories.Interfaces
         IEnumerable<Participant> GetAll();
         Participant Add(Participant participant);
         Participant Update(Participant participant);
-
-        Participant GetFullParticipant(int id);
+        
         void Save(Participant participant);
     }
 }

@@ -12,6 +12,10 @@ namespace EbecShop.DataAccess.Repositiories
 {
     public class ProductRepository : Repository, IProductRepository
     {
+        public ProductRepository(IDbTransaction transaction) : base(transaction)
+        {
+        }
+
         public Product Add(Product product)
         {
             var parameters = new DynamicParameters();
@@ -20,8 +24,7 @@ namespace EbecShop.DataAccess.Repositiories
             parameters.Add("@Description",product.Description);
             parameters.Add("@Image",product.Image);
 
-            using (var connection = CreateDbConnection())
-                connection.Execute("InsertProduct", parameters, commandType: CommandType.StoredProcedure);
+            connection.Execute("InsertProduct", parameters, commandType: CommandType.StoredProcedure);
 
             product.Id = parameters.Get<int>("@Id");
             return product;
@@ -29,8 +32,7 @@ namespace EbecShop.DataAccess.Repositiories
 
         public Product Find(int id)
         {
-            using (var connection = CreateDbConnection())
-                return connection.Query<Product>("SELECT * FROM Products WHERE Id = @Id", new { Id = id }).FirstOrDefault();
+            return connection.Query<Product>("SELECT * FROM Products WHERE Id = @Id", new { Id = id }).FirstOrDefault();
         }
 
         public Product Update(Product product)
@@ -41,44 +43,37 @@ namespace EbecShop.DataAccess.Repositiories
             parameters.Add("@Description", product.Description);
             parameters.Add("@Image", product.Image);
 
-            using (var connection = CreateDbConnection())
-                connection.Execute("UpdateProduct", parameters, commandType: CommandType.StoredProcedure);
+            connection.Execute("UpdateProduct", parameters, commandType: CommandType.StoredProcedure);
 
             return product;
         }
 
         public IEnumerable<Product> GetAll()
         {
-            using (var connection = CreateDbConnection())
-            {
-                var products = connection.Query<Product>("SELECT * FROM Products");
+            var products = connection.Query<Product>("SELECT * FROM Products");
 
-                foreach (var product in products)
-                {
-                    product.Types = connection.Query<ProductType>("SELECT * FROM ProductTypes WHERE ProductId=@Id", new { Id = product.Id });
-                    foreach (var type in product.Types)
-                        type.Product = product;
-                }
-                return products;
+            foreach (var product in products)
+            {
+                product.Types = connection.Query<ProductType>("SELECT * FROM ProductTypes WHERE ProductId=@Id", new { Id = product.Id });
+                foreach (var type in product.Types)
+                    type.Product = product;
             }
+            return products;
         }
 
         public Product GetFullProduct(int id)
         {
-            using (var connection = CreateDbConnection())
+            using (var multipleResults = connection.QueryMultiple("GetProduct", new { Id = id }, commandType: CommandType.StoredProcedure))
             {
-                using (var multipleResults = connection.QueryMultiple("GetProduct", new { Id = id }, commandType: CommandType.StoredProcedure))
-                {
-                    var product = multipleResults.Read<Product>().Single();
-                    var productTypes = multipleResults.Read<ProductType>().ToList();
+                var product = multipleResults.Read<Product>().Single();
+                var productTypes = multipleResults.Read<ProductType>().ToList();
 
-                    if (product != null && productTypes != null)
-                    {
-                        productTypes.ForEach(type => type.Product = product);
-                        product.Types = productTypes;
-                    }
-                    return product;
+                if (product != null && productTypes != null)
+                {
+                    productTypes.ForEach(type => type.Product = product);
+                    product.Types = productTypes;
                 }
+                return product;
             }
         }
 

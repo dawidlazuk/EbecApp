@@ -17,7 +17,8 @@ namespace EbecShop.Shop.BizLogic
             CheckIfNewOrderStatusIsValid(order.Status, newStatus);
 
             order.Status = newStatus;
-            order = DbContext.Orders.Update(order);
+            using(var unitOfWork = new UnitOfWork())
+                order = unitOfWork.Orders.Update(order);
             return order;
         }
 

@@ -13,6 +13,10 @@ namespace EbecShop.DataAccess.Repositiories
 { 
     public class ParticipantRepository : Repository, IParticipantRepository
     {
+        public ParticipantRepository(IDbTransaction transaction) : base(transaction)
+        {
+        }
+
         public Participant Add(Participant participant)
         {
             var parameters = new DynamicParameters();
@@ -21,8 +25,7 @@ namespace EbecShop.DataAccess.Repositiories
             parameters.Add("@Surname", participant.Surname);
             parameters.Add("@TeamId", participant.TeamId);
 
-            using (var connection = CreateDbConnection())
-                connection.Execute("InsertParticipant", parameters, commandType: CommandType.StoredProcedure);
+            connection.Execute("InsertParticipant", parameters, commandType: CommandType.StoredProcedure);
 
             participant.Id = parameters.Get<int>("@Id");
             return participant;
@@ -30,8 +33,7 @@ namespace EbecShop.DataAccess.Repositiories
 
         public Participant Find(int id)
         {
-            using (var connection = CreateDbConnection())
-                return connection.Query<Participant>("SELECT * FROM Participants WHERE Id=@Id", new { Id = id }).FirstOrDefault();
+            return connection.Query<Participant>("SELECT * FROM Participants WHERE Id=@Id", new { Id = id }).FirstOrDefault();
         }
 
         public Participant Update(Participant participant)
@@ -42,28 +44,17 @@ namespace EbecShop.DataAccess.Repositiories
             parameters.Add("@Surname", participant.Surname);
             parameters.Add("@TeamId", participant.TeamId);
 
-            using (var connection = CreateDbConnection())
-                connection.Execute("UpdateParticipant", parameters, commandType: CommandType.StoredProcedure);
+            connection.Execute("UpdateParticipant", parameters, commandType: CommandType.StoredProcedure);
             return participant;
         }
 
         public IEnumerable<Participant> GetAll()
         {
-            using (var connection = CreateDbConnection())
-                return connection.Query<Participant>("SELECT * FROM Participants").AsList();
+            return connection.Query<Participant>("SELECT * FROM Participants").AsList();
         }
-
-        public Participant GetFullParticipant(int id)
-        {
-            var participant = Find(id);
-            participant.Team = DbContext.Teams.GetTeam(participant.TeamId);
-            return participant;
-        }
-
+        
         public void Save(Participant participant)
         {           
-            //.NET Core 2.0 feature - uncomment in VS2017
-            //using(var txScope = new TransactionScope())
             {
                 if (participant.IsNew)
                     this.Add(participant);

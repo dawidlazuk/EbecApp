@@ -1,5 +1,6 @@
 ﻿using EbecShop.Model;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace EbecShop.Customer.BizLogic.Contract
 {
@@ -32,6 +33,6 @@ namespace EbecShop.Customer.BizLogic.Contract
 
         Order CancelOrder(Order order);
 
-        IEnumerable<Order> GetTeamOrders(Team team);
+        Task<IEnumerable<Order>> GetTeamOrders(Team team);
     }
 }

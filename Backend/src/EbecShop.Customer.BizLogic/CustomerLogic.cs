@@ -8,6 +8,7 @@ using EbecShop.DataAccess.Queries;
 using System.Linq;
 using System.Transactions;
 using System.Diagnostics;
+using System.Threading.Tasks;
 
 namespace EbecShop.Customer.BizLogic
 {
@@ -24,17 +25,20 @@ namespace EbecShop.Customer.BizLogic
 
         public Order CreateOrder(int teamId, IDictionary<int, decimal> productsIds)
         {
-            Team team = DbContext.Teams.GetTeam(teamId);
-            Debug.Assert(team != null);
-
-            var products = new Dictionary<ProductType, decimal>();
-            foreach(var productAmount in productsIds)
+            using (var unitOfWork = new UnitOfWork())
             {
-                var product = DbContext.ProductTypes.GetProductType(productAmount.Key);
-                Debug.Assert(product != null);
-                products.Add(product, productAmount.Value);
+                Team team = unitOfWork.Teams.GetTeam(teamId);
+                Debug.Assert(team != null);
+
+                var products = new Dictionary<ProductType, decimal>();
+                foreach (var productAmount in productsIds)
+                {
+                    var product = unitOfWork.ProductTypes.GetProductType(productAmount.Key);
+                    Debug.Assert(product != null);
+                    products.Add(product, productAmount.Value);
+                }
+                return CreateOrder(team, products);
             }
-            return CreateOrder(team, products);
         }
 
         public Order CreateOrder(Team team, IDictionary<ProductType, decimal> products)
@@ -49,11 +53,11 @@ namespace EbecShop.Customer.BizLogic
 
             order.Products = products;
             if (order.Products.Any())
-            {                
+            {
                 if (order.Value < team.AvailableBalance)
-                    DbAccessLayer.AddNewOrderToDatabase(team, order);                
-                else                
-                    throw new ArgumentException("Team has not enough funds to create order.");                
+                    DbAccessLayer.Orders.AddNewOrder(team, order);
+                else
+                    throw new ArgumentException("Team has not enough funds to create order.");
             }
             return order;
         }
@@ -61,21 +65,25 @@ namespace EbecShop.Customer.BizLogic
         private static void CheckProductsLimits(Team team, Order order, IDictionary<ProductType, decimal> products)
         {
             var productsToRemove = new List<ProductType>();
-            foreach (var product in products)
-            {
-                var amountInStore = DbContext.ProductTypes.Find(product.Key.Id).Amount;
-                if (product.Value > amountInStore)
-                {
-                    productsToRemove.Add(product.Key);
-                    order.Comment += GetLinePrefix(order.Comment) + $"Product {product.Key.Name} removed due to not enough amount in store. Ordered: {product.Value}, available: {amountInStore}.";
-                    continue;
-                }
 
-                var limit = DbContext.Teams.GetProductLimitForTeam(team, product.Key);
-                if (product.Value > limit)
+            using (var unitOfWork = new UnitOfWork())
+            {
+                foreach (var product in products)
                 {
-                    productsToRemove.Add(product.Key);
-                    order.Comment += GetLinePrefix(order.Comment) + $"Product {product.Key.Name} removed due to exceeded limit per team. Ordered: {product.Value}, allowed: {limit}.";
+                    var amountInStore = unitOfWork.ProductTypes.Find(product.Key.Id).Amount;
+                    if (product.Value > amountInStore)
+                    {
+                        productsToRemove.Add(product.Key);
+                        order.Comment += GetLinePrefix(order.Comment) + $"Product {product.Key.Name} removed due to not enough amount in store. Ordered: {product.Value}, available: {amountInStore}.";
+                        continue;
+                    }
+
+                    var limit = unitOfWork.Teams.GetProductLimitForTeam(team, product.Key);
+                    if (product.Value > limit)
+                    {
+                        productsToRemove.Add(product.Key);
+                        order.Comment += GetLinePrefix(order.Comment) + $"Product {product.Key.Name} removed due to exceeded limit per team. Ordered: {product.Value}, allowed: {limit}.";
+                    }
                 }
             }
 
@@ -93,17 +101,17 @@ namespace EbecShop.Customer.BizLogic
         {
             if (order.Status == OrderStatus.Finished)
                 throw new ArgumentException("Finished orders can not be cancelled.");
-
+            
             order.Status = OrderStatus.Cancelled;
-            DbContext.Orders.Save(order);
+            using(var unitOfWork = new UnitOfWork())
+                unitOfWork.Orders.Save(order);
             CustomerLogicObserver.OnOrderCancelled(order.Id);
             return order;
         }
 
-        public IEnumerable<Order> GetTeamOrders(Team team)
+        public async Task<IEnumerable<Order>> GetTeamOrders(Team team)
         {
-
-            return DbContext.Orders.GetByQuery(new OrderQuery { TeamId = team.Id });
+            return await DbAccessLayer.Orders.GetOrdersByQuery(new OrderQuery { TeamId = team.Id });
         }
 
         #endregion
@@ -112,15 +120,15 @@ namespace EbecShop.Customer.BizLogic
 
         public IEnumerable<Product> GetProducts()
         {
-            return DbContext.Products.GetAll();
+            using(var unitOfWork = new UnitOfWork())
+                return unitOfWork.Products.GetAll();
         }
 
         public Product GetProduct(int id)
         {
-            return DbContext.Products.GetFullProduct(id);
+            using (var unitOfWork = new UnitOfWork())
+                return unitOfWork.Products.GetFullProduct(id);
         }
-
-
         #endregion
 
     }

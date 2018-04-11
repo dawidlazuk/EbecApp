@@ -9,7 +9,7 @@ namespace EbecShop.DataAccess.Repositiories.Interfaces
         Team Find(int id);
         IEnumerable<Team> GetAll();
         Team Add(Team team);
-        Team Update(Team team, IDbConnection connection = null);
+        Team Update(Team team);
         void Remove(int id);
 
         Team GetTeam(int id);

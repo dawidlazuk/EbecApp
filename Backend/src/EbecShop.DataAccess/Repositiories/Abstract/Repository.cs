@@ -9,20 +9,14 @@ namespace EbecShop.DataAccess.Repositiories.Abstract
 {
     public abstract class Repository
     {
-        const string connString = @"Server=.\SQLEXPRESS;Database=EbecShopDB;Trusted_Connection=True;";
+        protected IDbTransaction transaction;
+        protected IDbConnection connection => transaction.Connection;
 
-        protected IDbConnection CreateDbConnection() => new SqlConnection(connString);
-
-        protected void PerformOnDatabase(Action<IDbConnection> action, IDbConnection connection = null)
+        public Repository(IDbTransaction transaction)
         {
-            bool isConnectionInjected = connection != null;
-            if (connection == null)
-                connection = CreateDbConnection();
-
-            action(connection);
-
-            if (isConnectionInjected)
-                connection.Dispose();
+            this.transaction = transaction;
         }
+
+        const string connString = @"Server=.\SQLEXPRESS;Database=EbecShopDB;Trusted_Connection=True;";
     }
 }

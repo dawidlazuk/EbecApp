@@ -15,18 +15,19 @@ using System;
 namespace EbecShop.DataAccess.Repositiories
 {
     public class TeamRepository : Repository, ITeamRepository
-
     {
+        public TeamRepository(IDbTransaction transaction) : base(transaction)
+        {
+        }
+
         public Team Find(int id)
         {
-            using (var connection = CreateDbConnection())
-                return connection.Query<Team>($"SELECT * FROM Teams t WHERE t.Id = @Id", new { Id = id }).FirstOrDefault();
+            return connection.Query<Team>($"SELECT * FROM Teams t WHERE t.Id = @Id", new { Id = id }).FirstOrDefault();
         }
 
         public IEnumerable<Team> GetAll()
         {
-            using (var connection = CreateDbConnection())
-                return connection.Query<Team>("SELECT * FROM Teams").AsList();
+            return connection.Query<Team>("SELECT * FROM Teams").AsList();
         }
 
         public Team Add(Team team)
@@ -37,70 +38,68 @@ namespace EbecShop.DataAccess.Repositiories
             parameters.Add("@Balance", team.Balance);
             parameters.Add("@BlockedBalance", team.BlockedBalance);
 
-            using (var connection = CreateDbConnection())
-                connection.Execute("InsertTeam", parameters, commandType: CommandType.StoredProcedure);
+            connection.Execute("InsertTeam", parameters, commandType: CommandType.StoredProcedure);
 
             team.Id = parameters.Get<int>("@Id");
             return team;
         }
 
-        public Team Update(Team team, IDbConnection connection = null)
+        public Team Update(Team team)
         {
-            PerformOnDatabase(conn => conn.Execute("UpdateTeam", team, commandType: CommandType.StoredProcedure), connection);
+            var parameters = new DynamicParameters();
+            parameters.Add("@Id", team.Id);
+            parameters.Add("@Name", team.Name);
+            parameters.Add("@Balance", team.Balance);
+            parameters.Add("@BlockedBalance", team.BlockedBalance);
+
+            connection.Execute("UpdateTeam", parameters, commandType: CommandType.StoredProcedure);
             return team;
         }
 
         public void Remove(int id)
         {
-            using (var connection = CreateDbConnection())
-                connection.Execute("DELETE FROM Teams WHERE Id = @Id", new { Id = id });
+            connection.Execute("DELETE FROM Teams WHERE Id = @Id", new { Id = id });
         }
               
         public Team GetTeam(int id)
         {
-            using (var connection = CreateDbConnection())
+            using (var multipleResults = connection.QueryMultiple("GetTeam", new { Id = id }, commandType: CommandType.StoredProcedure))
             {
-                using (var multipleResults = connection.QueryMultiple("GetTeam", new { Id = id }, commandType: CommandType.StoredProcedure))
-                {
-                    var team = multipleResults.Read<Team>().SingleOrDefault();
-                    var members = multipleResults.Read<Participant>().ToList();
+                var team = multipleResults.Read<Team>().SingleOrDefault();
+                var members = multipleResults.Read<Participant>().ToList();
 
-                    if (team != null && members != null)
-                    {
-                        members.ForEach(p => p.Team = team);
-                        team.Members.AddRange(members);
-                    }
-                    return team;
+                if (team != null && members != null)
+                {
+                    members.ForEach(p => p.Team = team);
+                    team.Members.AddRange(members);
                 }
-            }
+                return team;
+            }            
         }
 
         public void Save(Team team)
         {
-            //.NET Core 2.0 feature - uncomment in VS2017
-            using (var txScope = new TransactionScope())
-            {                
-                if (team.IsNew)
-                    this.Add(team);
-                else
-                    this.Update(team);
+            if (team.IsNew)
+                this.Add(team);
+            else
+                this.Update(team);
 
-                foreach (var member in team.Members)
+            foreach (var member in team.Members)
+            {
+                if (member.IsDeleted == false)
                 {
-                    if (member.IsDeleted == false)
+                    if (member.IsNew)
                     {
-                        if (member.IsNew)
-                        {
-                            DbContext.Participants.Add(member);
-                        }
-                        else
-                        {
-                            DbContext.Participants.Update(member);
-                        }
+                        throw new NotImplementedException();
+                        //DbContext.Participants.Add(member);
+                    }
+                    else
+                    {
+                        throw new NotImplementedException();
+                        //DbContext.Participants.Update(member);
                     }
                 }
-
-            }            
+            }
         }
 
         public IDictionary<Product, decimal> GetTeamLimits(Team team)
@@ -112,15 +111,15 @@ namespace EbecShop.DataAccess.Repositiories
             IDictionary<Product, decimal> result = new Dictionary<Product, decimal>();
 
             List<Tuple<int, decimal>> limits;
-            using (var connection = CreateDbConnection())
-                limits = connection.Query<Tuple<int, decimal>>("SELECT ProductTypeId, Limit FROM TeamProductLimits WHERE TeamId = @Id", new { Id = teamId }).ToList();
+            limits = connection.Query<Tuple<int, decimal>>("SELECT ProductTypeId, Limit FROM TeamProductLimits WHERE TeamId = @Id", new { Id = teamId }).ToList();
 
             foreach(var limit in limits)
             {
-                result.Add(
-                    DbContext.Products.Find(limit.Item1),
-                    limit.Item2
-                    );
+                throw new NotImplementedException();
+                //result.Add(
+                //    DbContext.Products.Find(limit.Item1),
+                //    limit.Item2
+                //    );
             }
             return result;
         }
@@ -132,15 +131,14 @@ namespace EbecShop.DataAccess.Repositiories
 
         public decimal GetProductLimitForTeam(int teamId, int productTypeId)
         {
-            using (var connection = CreateDbConnection())
-                return connection.Query<decimal>(
-                    "GetTeamProductTypeLimit", 
-                    new {
-                        TeamId = teamId,
-                        ProductTypeId = productTypeId
-                    },
-                    commandType: CommandType.StoredProcedure)
-                        .FirstOrDefault();
+            return connection.Query<decimal>(
+                "GetTeamProductTypeLimit", 
+                new {
+                    TeamId = teamId,
+                    ProductTypeId = productTypeId
+                },
+                commandType: CommandType.StoredProcedure)
+                    .FirstOrDefault();
         }
     }
 }

@@ -12,12 +12,12 @@ namespace EbecShop.DataAccess.Repositiories.Interfaces
     {
         Order Get(int id);
         IEnumerable<Order> GetAll();
-        IEnumerable<Order> GetByQuery(OrderQuery query);
+        Task<IEnumerable<Order>> GetByQuery(OrderQuery query);
 
-        Order Add(Order order, IDbConnection connection = null);
-        Order Update(Order order, IDbConnection connection = null);
+        Order Add(Order order);
+        Order Update(Order order);
 
         Order GetFullOrder(int id);
-        void Save(Order order, IDbConnection connection = null);
+        void Save(Order order);
     }
 }
