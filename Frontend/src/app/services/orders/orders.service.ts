@@ -28,6 +28,13 @@ export class OrdersService {
       .catch(this.handleError);
   }
 
+  getOrderDetails(order: IOrder): Observable<any>{
+    let getOrderDetailsUrl = this.ordersControllerUrl + "/" + order.id + "/details";
+
+    return this._http.get<any>(getOrderDetailsUrl)
+      .catch(this.handleError);    
+  }
+
   private createOrderRequest(teamId: number, products: {productType: IProductType, amount: number}[]): string {    
     var productsByIndex: {[index: number]:number} = {}; 
     products.forEach(productAmount => 
@@ -42,16 +49,25 @@ export class OrdersService {
   }
 
   private mapOrders(orders: IOrder[]){     
-    let orderObjects: IOrder[] = [];
-    orders.forEach(order => {
+    for(let order of orders)
+    {
         let tempOrder = new Order();
+        tempOrder.id = order.id;
         tempOrder.status = order.status;
         tempOrder.value = order.value;
         tempOrder.modifiedDate = order.modifiedDate;
         tempOrder.createdDate = order.createdDate;
-        orderObjects.push(tempOrder);
-    });
-    return orderObjects;
+        order = tempOrder;
+    }
+  }
+
+  private mapProducts(products: any): any{
+    let result : {productType: IProductType, amount: number}[] = [];
+    for(let product of products)
+      result.push({productType: product.productType, amount: product.amount});
+
+    console.log("result: " + result);
+    return result;
   }
 
   private handleError(err: HttpErrorResponse){

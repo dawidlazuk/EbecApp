@@ -23,6 +23,11 @@ namespace EbecShop.Customer.BizLogic
 
         #region Orders
 
+        public Order GetOrder(int id)
+        {
+            return DbAccessLayer.Orders.GetOrdersByQuery(new OrderQuery { OrderId = id }).Result.Single();            
+        }
+
         public Order CreateOrder(int teamId, IDictionary<int, decimal> productsIds)
         {
             using (var unitOfWork = new UnitOfWork())
@@ -129,6 +134,8 @@ namespace EbecShop.Customer.BizLogic
             using (var unitOfWork = new UnitOfWork())
                 return unitOfWork.Products.GetFullProduct(id);
         }
+
+       
         #endregion
 
     }

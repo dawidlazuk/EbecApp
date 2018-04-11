@@ -22,7 +22,7 @@ namespace EbecShop.DataAccess.Repositiories
 
         public Team Find(int id)
         {
-            return connection.Query<Team>($"SELECT * FROM Teams t WHERE t.Id = @Id", new { Id = id }).FirstOrDefault();
+            return connection.Query<Team>($"SELECT * FROM Teams t WHERE t.Id = @Id", new { Id = id }, transaction: transaction).FirstOrDefault();
         }
 
         public IEnumerable<Team> GetAll()
@@ -38,7 +38,7 @@ namespace EbecShop.DataAccess.Repositiories
             parameters.Add("@Balance", team.Balance);
             parameters.Add("@BlockedBalance", team.BlockedBalance);
 
-            connection.Execute("InsertTeam", parameters, commandType: CommandType.StoredProcedure);
+            connection.Execute("InsertTeam", parameters, transaction: transaction, commandType: CommandType.StoredProcedure);
 
             team.Id = parameters.Get<int>("@Id");
             return team;
@@ -52,18 +52,18 @@ namespace EbecShop.DataAccess.Repositiories
             parameters.Add("@Balance", team.Balance);
             parameters.Add("@BlockedBalance", team.BlockedBalance);
 
-            connection.Execute("UpdateTeam", parameters, commandType: CommandType.StoredProcedure);
+            connection.Execute("UpdateTeam", parameters, transaction: transaction, commandType: CommandType.StoredProcedure);
             return team;
         }
 
         public void Remove(int id)
         {
-            connection.Execute("DELETE FROM Teams WHERE Id = @Id", new { Id = id });
+            connection.Execute("DELETE FROM Teams WHERE Id = @Id", new { Id = id }, transaction: transaction);
         }
               
         public Team GetTeam(int id)
         {
-            using (var multipleResults = connection.QueryMultiple("GetTeam", new { Id = id }, commandType: CommandType.StoredProcedure))
+            using (var multipleResults = connection.QueryMultiple("GetTeam", new { Id = id }, transaction: transaction, commandType: CommandType.StoredProcedure))
             {
                 var team = multipleResults.Read<Team>().SingleOrDefault();
                 var members = multipleResults.Read<Participant>().ToList();
@@ -111,7 +111,7 @@ namespace EbecShop.DataAccess.Repositiories
             IDictionary<Product, decimal> result = new Dictionary<Product, decimal>();
 
             List<Tuple<int, decimal>> limits;
-            limits = connection.Query<Tuple<int, decimal>>("SELECT ProductTypeId, Limit FROM TeamProductLimits WHERE TeamId = @Id", new { Id = teamId }).ToList();
+            limits = connection.Query<Tuple<int, decimal>>("SELECT ProductTypeId, Limit FROM TeamProductLimits WHERE TeamId = @Id", new { Id = teamId }, transaction: transaction).ToList();
 
             foreach(var limit in limits)
             {
@@ -137,6 +137,7 @@ namespace EbecShop.DataAccess.Repositiories
                     TeamId = teamId,
                     ProductTypeId = productTypeId
                 },
+                transaction: transaction,
                 commandType: CommandType.StoredProcedure)
                     .FirstOrDefault();
         }

@@ -21,6 +21,8 @@ namespace EbecShop.Customer.BizLogic.Contract
 
         Product GetProduct(int id);
 
+        Order GetOrder(int id);
+
         Order CreateOrder(
             Team team,
             IDictionary<ProductType, decimal> products

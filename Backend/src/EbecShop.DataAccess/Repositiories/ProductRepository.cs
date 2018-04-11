@@ -24,7 +24,7 @@ namespace EbecShop.DataAccess.Repositiories
             parameters.Add("@Description",product.Description);
             parameters.Add("@Image",product.Image);
 
-            connection.Execute("InsertProduct", parameters, commandType: CommandType.StoredProcedure);
+            connection.Execute("InsertProduct", parameters, transaction: transaction, commandType: CommandType.StoredProcedure);
 
             product.Id = parameters.Get<int>("@Id");
             return product;
@@ -32,7 +32,7 @@ namespace EbecShop.DataAccess.Repositiories
 
         public Product Find(int id)
         {
-            return connection.Query<Product>("SELECT * FROM Products WHERE Id = @Id", new { Id = id }).FirstOrDefault();
+            return connection.Query<Product>("SELECT * FROM Products WHERE Id = @Id", new { Id = id }, transaction: transaction).FirstOrDefault();
         }
 
         public Product Update(Product product)
@@ -43,18 +43,18 @@ namespace EbecShop.DataAccess.Repositiories
             parameters.Add("@Description", product.Description);
             parameters.Add("@Image", product.Image);
 
-            connection.Execute("UpdateProduct", parameters, commandType: CommandType.StoredProcedure);
+            connection.Execute("UpdateProduct", parameters, transaction: transaction, commandType: CommandType.StoredProcedure);
 
             return product;
         }
 
         public IEnumerable<Product> GetAll()
         {
-            var products = connection.Query<Product>("SELECT * FROM Products");
+            var products = connection.Query<Product>("SELECT * FROM Products", transaction: transaction);
 
             foreach (var product in products)
             {
-                product.Types = connection.Query<ProductType>("SELECT * FROM ProductTypes WHERE ProductId=@Id", new { Id = product.Id });
+                product.Types = connection.Query<ProductType>("SELECT * FROM ProductTypes WHERE ProductId=@Id", new { Id = product.Id }, transaction: transaction);
                 foreach (var type in product.Types)
                     type.Product = product;
             }
@@ -63,7 +63,7 @@ namespace EbecShop.DataAccess.Repositiories
 
         public Product GetFullProduct(int id)
         {
-            using (var multipleResults = connection.QueryMultiple("GetProduct", new { Id = id }, commandType: CommandType.StoredProcedure))
+            using (var multipleResults = connection.QueryMultiple("GetProduct", new { Id = id }, transaction: transaction, commandType: CommandType.StoredProcedure))
             {
                 var product = multipleResults.Read<Product>().Single();
                 var productTypes = multipleResults.Read<ProductType>().ToList();

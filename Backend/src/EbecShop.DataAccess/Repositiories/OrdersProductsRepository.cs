@@ -18,7 +18,11 @@ namespace EbecShop.DataAccess.Repositiories
 
         public async Task<IEnumerable<ProductAmount>> GetProductsOfOrder(int orderId)
         {
-            return await connection.QueryAsync<ProductAmount>("GetProductsOfOrder", new { OrderId = orderId }, commandType: CommandType.StoredProcedure);
+            return await connection.QueryAsync<ProductAmount>(
+                "GetProductsOfOrder",
+                new { OrderId = orderId },
+                transaction: transaction,
+                commandType: CommandType.StoredProcedure);
         }
     }
 }

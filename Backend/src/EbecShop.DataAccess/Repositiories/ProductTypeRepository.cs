@@ -23,7 +23,7 @@ namespace EbecShop.DataAccess.Repositiories
             parameters.Add("@Price", productType.Price);
             parameters.Add("@Amount", productType.Amount);
 
-            connection.Execute("InsertProductType", parameters, commandType: CommandType.StoredProcedure);
+            connection.Execute("InsertProductType", parameters, transaction: transaction, commandType: CommandType.StoredProcedure);
 
             productType.Id = parameters.Get<int>("@Id");
             return productType;
@@ -31,18 +31,18 @@ namespace EbecShop.DataAccess.Repositiories
 
         public ProductType Find(int id)
         {
-            return connection.Query<ProductType>("SELECT * FROM ProductTypes WHERE Id = @Id", new { Id = id }).FirstOrDefault();
+            return connection.Query<ProductType>("SELECT * FROM ProductTypes WHERE Id = @Id", new { Id = id }, transaction: transaction).FirstOrDefault();
         }
 
         public IEnumerable<ProductType> GetAll()
         {
-            return connection.Query<ProductType>("SELECT * FROM ProductTypes");
+            return connection.Query<ProductType>("SELECT * FROM ProductTypes", transaction: transaction);
         }
 
         public ProductType GetProductType(int id)
         {
             ProductType productType;
-            using (var multipleResults = connection.QueryMultiple("GetProductType", new { Id = id }, commandType: CommandType.StoredProcedure))
+            using (var multipleResults = connection.QueryMultiple("GetProductType", new { Id = id }, transaction: transaction, commandType: CommandType.StoredProcedure))
             {
                 productType = multipleResults.Read<ProductType>().Single();
                 var product = multipleResults.Read<Product>().Single();
@@ -69,7 +69,7 @@ namespace EbecShop.DataAccess.Repositiories
             parameters.Add("@Price", productType.Price);
             parameters.Add("@Amount", productType.Amount);
 
-            connection.Execute("UpdateProductType", parameters, commandType: CommandType.StoredProcedure);
+            connection.Execute("UpdateProductType", parameters, transaction: transaction, commandType: CommandType.StoredProcedure);
            
             return productType;
         }

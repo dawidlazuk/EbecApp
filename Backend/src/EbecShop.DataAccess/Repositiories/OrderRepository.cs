@@ -19,7 +19,7 @@ namespace EbecShop.DataAccess.Repositiories
 
         public Order Get(int id)
         {
-                return connection.Query<Order>("SELECT * FROM Orders WHERE Id=@Id", new { Id = id }).FirstOrDefault();
+                return connection.Query<Order>("SELECT * FROM Orders WHERE Id=@Id", new { Id = id }, transaction: transaction).FirstOrDefault();
         }
 
         public IEnumerable<Order> GetAll()
@@ -29,7 +29,7 @@ namespace EbecShop.DataAccess.Repositiories
 
         public async Task<IEnumerable<Order>> GetByQuery(OrderQuery query)
         {
-            return await connection.QueryAsync<Order>("GetOrderByQuery", query.Parameters, commandType: CommandType.StoredProcedure);
+            return await connection.QueryAsync<Order>("GetOrderByQuery", query.Parameters, transaction: transaction, commandType: CommandType.StoredProcedure);
         }
         
         public Order Add(Order order)
@@ -71,7 +71,7 @@ namespace EbecShop.DataAccess.Repositiories
 
         public Order GetFullOrder(int id)
         {
-            using (var multipleResults = connection.QueryMultiple("GetOrder", new { Id = id }, commandType: System.Data.CommandType.StoredProcedure))
+            using (var multipleResults = connection.QueryMultiple("GetOrder", new { Id = id }, transaction: transaction, commandType: System.Data.CommandType.StoredProcedure))
             {
                 var order = multipleResults.Read<Order>().SingleOrDefault();
                 var products = multipleResults.Read<Tuple<int, decimal>>().ToList();

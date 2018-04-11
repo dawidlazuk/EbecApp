@@ -1,6 +1,8 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes, RouterOutlet } from '@angular/router';
+import { MatDialogModule } from '@angular/material/dialog';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { AppComponent } from './app.component';
 import { ProductComponent } from './product/product.component';
@@ -12,6 +14,7 @@ import { NavigationBarComponent } from './navigation-bar/navigation-bar.componen
 import { ShoppingCartComponent } from './shopping-cart/shopping-cart.component';
 import { OrdersListComponent } from './orders-list/orders-list.component';
 import { OrderStatusToDisplayNamePipe } from './pipes/order-status-to-display-name.pipe';
+import { OrderDetailsComponent } from './order-details/order-details.component';
 
 const appRoutes: Routes = [
   { path: 'products', component: ProductsListComponent },
@@ -32,7 +35,11 @@ const appRoutes: Routes = [
     NavigationBarComponent,
     ShoppingCartComponent,
     OrdersListComponent,
-    OrderStatusToDisplayNamePipe
+    OrderStatusToDisplayNamePipe,
+    OrderDetailsComponent
+  ],
+  entryComponents: [
+    OrderDetailsComponent
   ],
   imports: [
     RouterModule.forRoot(
@@ -40,7 +47,9 @@ const appRoutes: Routes = [
       { enableTracing: true }
     ),
     BrowserModule,
-    HttpClientModule
+    HttpClientModule,
+    MatDialogModule,
+    BrowserAnimationsModule
   ],
   providers: [],
   bootstrap: [AppComponent]
