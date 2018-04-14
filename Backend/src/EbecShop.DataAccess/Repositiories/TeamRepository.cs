@@ -20,7 +20,7 @@ namespace EbecShop.DataAccess.Repositiories
         {
         }
 
-        public Team Find(int id)
+        public Team Get(int id)
         {
             return connection.Query<Team>($"SELECT * FROM Teams t WHERE t.Id = @Id", new { Id = id }, transaction: transaction).FirstOrDefault();
         }

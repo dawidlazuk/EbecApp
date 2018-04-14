@@ -36,5 +36,13 @@ namespace EbecShop.Model
         }
 
         public decimal Value => Products.Sum(pa => pa.Key.Price * pa.Value);
+
+        public void AddComment(string comment)
+        {
+            if (string.IsNullOrEmpty(this.Comment))
+                this.Comment = comment;
+            else
+                this.Comment += $"\n{comment}";
+        }
     }
 }

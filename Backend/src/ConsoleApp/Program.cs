@@ -27,7 +27,7 @@ namespace ConsoleApp
                 {
                     var team = teamRepository.GetTeam(i);
                     Console.WriteLine($"Id: {team.Id}, Name: {team.Name}");
-                    Console.WriteLine($"Single select: {teamRepository.Find(team.Id).Name}");
+                    Console.WriteLine($"Single select: {teamRepository.Get(team.Id).Name}");
                 }
             }
         }

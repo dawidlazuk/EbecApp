@@ -5,7 +5,7 @@ namespace EbecShop.DataAccess.Repositiories.Interfaces
 {
     public interface IProductTypeRepository
     {
-        ProductType Find(int id);
+        ProductType Get(int id);
         IEnumerable<ProductType> GetAll();
 
         ProductType Add(ProductType productType);

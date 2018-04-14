@@ -11,7 +11,6 @@ export class OrderDetailsComponent implements OnInit {
   
   order: IOrder;
 
-
   constructor(
     public dialogRef: MatDialogRef<OrderDetailsComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any) 

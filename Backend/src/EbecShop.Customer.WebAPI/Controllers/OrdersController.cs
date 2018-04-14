@@ -28,6 +28,9 @@ namespace EbecShop.Customer.WebAPI.Controllers
         [HttpGet]
         public IActionResult Get([FromQuery] int teamId)
         {
+            if (teamId <= 0)
+                return BadRequest("Id must be greater than zero.");
+
             var orders = customerLogic.GetTeamOrders(new Model.Team { Id = teamId }).Result; //TODO Change to Team context;
 
             if (orders.Any() == false)
@@ -40,6 +43,9 @@ namespace EbecShop.Customer.WebAPI.Controllers
         [Route("{id}")]
         public IActionResult Get_Order(int id)
         {
+            if (id <= 0)
+                return BadRequest("Id must be greater than zero.");
+
             var order = customerLogic.GetOrder(id); //TODO Change to Team context;
 
             if (order == null)
@@ -53,11 +59,14 @@ namespace EbecShop.Customer.WebAPI.Controllers
         [Route("{id}/details")]
         public IActionResult Get_OrderDetails(int id)
         {
+            if (id <= 0)
+                return BadRequest("Id must be greater than zero.");
+
             var order = customerLogic.GetOrder(id); //TODO Change to Team context;
 
             if (order == null)
                 return NotFound();
-
+            
             return Ok(DTO.OrderDetails.MapFromModel(order));
         }
 
@@ -91,12 +100,28 @@ namespace EbecShop.Customer.WebAPI.Controllers
         [HttpPut("{id}")]
         public void Put(int id, [FromBody]string value)
         {
+            throw new NotImplementedException();
         }
 
         // DELETE api/values/5
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        public async System.Threading.Tasks.Task<IActionResult> DeleteAsync(int id)
         {
+            if (id <= 0)
+                return BadRequest("Id must be greater than zero.");
+
+            try
+            {
+                var cancelledOrder = await customerLogic.CancelOrder(id);
+                if (cancelledOrder.Status == Model.Enums.OrderStatus.Cancelled)
+                    return Ok(cancelledOrder);
+                else
+                    return StatusCode((int)HttpStatusCode.InternalServerError);
+            }
+            catch(Exception ex)
+            {
+                return StatusCode((int)HttpStatusCode.InternalServerError, ex);
+            }
         }
     }
 }

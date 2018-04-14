@@ -19,7 +19,23 @@ namespace EbecShop.DataAccess
                     if (team.AvailableBalance < order.Value)
                         throw new ArgumentException($"Team {team.Name} [{team.Id}] has not enough available balance. Available: {team.AvailableBalance}. Order value: {order.Value}.");
 
+                    var productTypesIdsToRemove = new List<int>();
+
                     //check and update availability of product
+                    foreach(var productAmount in order.Products)
+                    {
+                        var productType = unitOfWork.ProductTypes.Get(productAmount.Key.Id);
+                        if (productType.Amount >= productAmount.Value)
+                        {
+                            productType.Amount -= productAmount.Value;
+                            unitOfWork.ProductTypes.Save(productType);
+                        }
+                        else
+                        {
+                            productTypesIdsToRemove.Add(productType.Id);
+                            order.AddComment($"Product {productType.Product.Name} ({productType.Name}) has been removed because of not enough amount in stock.");
+                        }
+                    }
 
                     team.BlockedBalance += order.Value;
                     order = unitOfWork.Orders.Add(order);
@@ -28,6 +44,7 @@ namespace EbecShop.DataAccess
                     unitOfWork.Commit();
                 }
             }
+
 
             public static async Task<IEnumerable<Order>> GetOrdersByQuery(OrderQuery query)
             {
@@ -56,21 +73,11 @@ namespace EbecShop.DataAccess
                     if (participant == null)
                         throw new KeyNotFoundException($"Participant with id {id} does not exist.");
 
-                    participant.Team = unitOfWork.Teams.Find(participant.TeamId);
+                    participant.Team = unitOfWork.Teams.Get(participant.TeamId);
 
                     return participant;
                 }
             }
-        }
-
-        //public static void AddNewOrderToDatabase(Team team, Order order)
-        //{
-        //    DbContext.ExecuteAsTransaction((connection, transaction) =>
-        //    {
-        //        team.BlockedBalance += order.Value;
-        //        order = DbContext.Orders.Add(order, connection, transaction);
-        //        team = DbContext.Teams.Update(team, connection, transaction);
-        //    });
-        //}
+        }        
     }
 }

@@ -33,8 +33,10 @@ export class ShoppingCartComponent implements OnInit {
   }
 
   makeOrder(){
-    this._orders.sendNewOrder(1, this.productsInCart);
-    this._cart.clear();    
+    if(this.productsInCart.length > 0){
+      this._orders.sendNewOrder(1, this.productsInCart);
+      this._cart.clear();    
+    }
 
     // this._http.post(this.makeOrderUrl,this.createOrderRequest())
     //   .catch(this.handleError);

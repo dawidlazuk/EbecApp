@@ -75,7 +75,7 @@ namespace EbecShop.Customer.BizLogic
             {
                 foreach (var product in products)
                 {
-                    var amountInStore = unitOfWork.ProductTypes.Find(product.Key.Id).Amount;
+                    var amountInStore = unitOfWork.ProductTypes.Get(product.Key.Id).Amount;
                     if (product.Value > amountInStore)
                     {
                         productsToRemove.Add(product.Key);
@@ -102,14 +102,40 @@ namespace EbecShop.Customer.BizLogic
         }
 
 
+        public async Task<Order> CancelOrder(int id)
+        {
+            Order order;
+            using (var unitOfWork = new UnitOfWork())
+                order = (await unitOfWork.Orders.GetByQuery(new OrderQuery { OrderId = id })).Single();
+
+            return CancelOrder(order);
+        }
+
         public Order CancelOrder(Order order)
         {
             if (order.Status == OrderStatus.Finished)
                 throw new ArgumentException("Finished orders can not be cancelled.");
             
-            order.Status = OrderStatus.Cancelled;
-            using(var unitOfWork = new UnitOfWork())
+            using (var unitOfWork = new UnitOfWork())
+            {
+                //TODO consider if querying the database for the modified data is necessary. Maybe we could rely on data contained in the object already.
+                order = unitOfWork.Orders.Get(order.Id);
+                order.Status = OrderStatus.Cancelled;
                 unitOfWork.Orders.Save(order);
+
+                foreach (var productAmount in order.Products)
+                {
+                    var productType = unitOfWork.ProductTypes.Get(productAmount.Key.Id);
+                    productType.Amount += productAmount.Value;
+                    unitOfWork.ProductTypes.Save(productType);
+                }
+
+                var team = unitOfWork.Teams.Get(order.TeamId);
+                team.BlockedBalance -= order.Value;
+                unitOfWork.Teams.Save(team);
+
+                unitOfWork.Commit();
+            }
             CustomerLogicObserver.OnOrderCancelled(order.Id);
             return order;
         }

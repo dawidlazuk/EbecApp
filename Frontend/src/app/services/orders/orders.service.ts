@@ -4,6 +4,7 @@ import * as $ from 'jquery';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { IOrder, Order } from '../../order';
 import { Observable } from 'rxjs/Observable';
+import { OrderStatus } from '../../order-status.enum';
 
 @Injectable()
 export class OrdersService {
@@ -33,6 +34,14 @@ export class OrdersService {
 
     return this._http.get<any>(getOrderDetailsUrl)
       .catch(this.handleError);    
+  }
+
+  cancelOrder(order: IOrder): Observable<IOrder> {
+    let deleteOrderUrl = this.ordersControllerUrl + "/" + order.id;
+    
+    return this._http.delete<IOrder>(deleteOrderUrl)
+      .do(order => this.mapOrders([order]))
+      .catch(this.handleError);
   }
 
   private createOrderRequest(teamId: number, products: {productType: IProductType, amount: number}[]): string {    
@@ -72,6 +81,7 @@ export class OrdersService {
 
   private handleError(err: HttpErrorResponse){
     console.log(err.message);
+    alert("An error occured, see console.");
     return Observable.throw(err.message);
   }
 }

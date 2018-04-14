@@ -30,7 +30,7 @@ namespace EbecShop.DataAccess.Repositiories
             return product;
         }
 
-        public Product Find(int id)
+        public Product Get(int id)
         {
             return connection.Query<Product>("SELECT * FROM Products WHERE Id = @Id", new { Id = id }, transaction: transaction).FirstOrDefault();
         }

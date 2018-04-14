@@ -17,6 +17,7 @@ namespace EbecShop.DataAccess.Repositiories.Interfaces
         Order Add(Order order);
         Order Update(Order order);
 
+        [Obsolete]
         Order GetFullOrder(int id);
         void Save(Order order);
     }

@@ -6,7 +6,7 @@ namespace EbecShop.DataAccess.Repositiories.Interfaces
 {
     public interface ITeamRepository
     {
-        Team Find(int id);
+        Team Get(int id);
         IEnumerable<Team> GetAll();
         Team Add(Team team);
         Team Update(Team team);

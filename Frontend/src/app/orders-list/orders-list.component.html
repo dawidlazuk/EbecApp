@@ -14,6 +14,7 @@
               <td>Created</td>
               <td>Modified</td>
               <td>Details</td>
+              <td>Cancel</td>
             </tr>
           </thead>
           <tbody>
@@ -24,6 +25,7 @@
               <td>{{order.createdDate}}</td>
               <td>{{order.modifiedDate}}</td>
               <td><button class="btn btn-default" (click)='showDetails(order)'>Details</button></td>
+              <td><button class="btn btn-default" (click)='cancelOrder(order)'>Cancel</button></td>
             </tr>
           </tbody>
         </table>

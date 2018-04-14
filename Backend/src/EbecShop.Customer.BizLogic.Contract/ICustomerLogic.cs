@@ -33,6 +33,7 @@ namespace EbecShop.Customer.BizLogic.Contract
             IDictionary<int, decimal> products
             );
 
+        Task<Order> CancelOrder(int orderId);
         Order CancelOrder(Order order);
 
         Task<IEnumerable<Order>> GetTeamOrders(Team team);
