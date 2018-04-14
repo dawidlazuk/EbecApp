@@ -7,7 +7,9 @@ export interface IOrder{
     products: {productType: IProductType, amount: number}[];
     value: number;
     createdDate: Date;
-    modifiedDate: Date;
+    modifiedDate: Date;   
+    
+    isNotFinished: boolean;
 }
 
 export class Order implements IOrder {
@@ -18,4 +20,10 @@ export class Order implements IOrder {
     createdDate: Date;
     modifiedDate: Date;
 
+    get isNotFinished(): boolean{
+        console.log("isNotFinished has been called")
+        return this.status != OrderStatus.finished
+            && this.status != OrderStatus.cancelled
+            && this.status != OrderStatus.cancelledByOrganisers;
+    }
 }

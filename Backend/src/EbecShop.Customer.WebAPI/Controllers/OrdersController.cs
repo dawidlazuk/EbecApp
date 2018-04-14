@@ -51,11 +51,21 @@ namespace EbecShop.Customer.WebAPI.Controllers
             if (order == null)
                 return NotFound();
 
-            return Ok(DTO.Order.MapFromModel(order));
+            try
+            {
+                return Ok(DTO.Order.MapFromModel(order));
+            }
+            catch (Exception ex)
+            {
+#if DEBUG
+                throw;
+#endif
+                return StatusCode((int)HttpStatusCode.InternalServerError, ex);
+            }
         }
 
-        // GET: api/orders/{id}/details
-        [HttpGet]        
+// GET: api/orders/{id}/details
+[HttpGet]        
         [Route("{id}/details")]
         public IActionResult Get_OrderDetails(int id)
         {
@@ -66,8 +76,17 @@ namespace EbecShop.Customer.WebAPI.Controllers
 
             if (order == null)
                 return NotFound();
-            
-            return Ok(DTO.OrderDetails.MapFromModel(order));
+            try
+            {
+                return Ok(DTO.OrderDetails.MapFromModel(order));
+            }
+            catch (Exception ex)
+            {
+#if DEBUG
+                throw;
+#endif
+                return StatusCode((int)HttpStatusCode.InternalServerError, ex);
+            }
         }
 
         // GET api/values/5
@@ -92,6 +111,9 @@ namespace EbecShop.Customer.WebAPI.Controllers
             }
             catch (Exception ex)
             {
+#if DEBUG
+                throw;
+#endif
                 return StatusCode((int)HttpStatusCode.InternalServerError, ex);
             }
         }
@@ -120,6 +142,9 @@ namespace EbecShop.Customer.WebAPI.Controllers
             }
             catch(Exception ex)
             {
+#if DEBUG
+                throw;
+#endif
                 return StatusCode((int)HttpStatusCode.InternalServerError, ex);
             }
         }

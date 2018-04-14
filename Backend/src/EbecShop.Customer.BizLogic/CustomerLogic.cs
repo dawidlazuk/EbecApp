@@ -25,7 +25,7 @@ namespace EbecShop.Customer.BizLogic
 
         public Order GetOrder(int id)
         {
-            return DbAccessLayer.Orders.GetOrdersByQuery(new OrderQuery { OrderId = id }).Result.Single();            
+            return DbAccessLayer.Orders.GetOrdersByQueryAsync(new OrderQuery { OrderId = id }).Result.Single();            
         }
 
         public Order CreateOrder(int teamId, IDictionary<int, decimal> productsIds)
@@ -104,22 +104,18 @@ namespace EbecShop.Customer.BizLogic
 
         public async Task<Order> CancelOrder(int id)
         {
-            Order order;
-            using (var unitOfWork = new UnitOfWork())
-                order = (await unitOfWork.Orders.GetByQuery(new OrderQuery { OrderId = id })).Single();
-
+            Order order = (await DbAccessLayer.Orders.GetOrdersByQueryAsync(new OrderQuery { OrderId = id })).Single();
             return CancelOrder(order);
         }
 
         public Order CancelOrder(Order order)
         {
-            if (order.Status == OrderStatus.Finished)
-                throw new ArgumentException("Finished orders can not be cancelled.");
+            if (order.Status == OrderStatus.Finished || order.Status == OrderStatus.Cancelled)
+                throw new ArgumentException("Finished or cancelled orders can not be cancelled.");
             
             using (var unitOfWork = new UnitOfWork())
             {
                 //TODO consider if querying the database for the modified data is necessary. Maybe we could rely on data contained in the object already.
-                order = unitOfWork.Orders.Get(order.Id);
                 order.Status = OrderStatus.Cancelled;
                 unitOfWork.Orders.Save(order);
 
@@ -142,7 +138,7 @@ namespace EbecShop.Customer.BizLogic
 
         public async Task<IEnumerable<Order>> GetTeamOrders(Team team)
         {
-            return await DbAccessLayer.Orders.GetOrdersByQuery(new OrderQuery { TeamId = team.Id });
+            return await DbAccessLayer.Orders.GetOrdersByQueryAsync(new OrderQuery { TeamId = team.Id });
         }
 
         #endregion

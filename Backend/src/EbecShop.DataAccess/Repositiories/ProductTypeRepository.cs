@@ -64,7 +64,7 @@ namespace EbecShop.DataAccess.Repositiories
         {
             var parameters = new DynamicParameters();
             parameters.Add("@Id", value: productType.Id);
-            parameters.Add("@ProductId", productType.Product.Id);
+            parameters.Add("@ProductId", productType.ProductId);
             parameters.Add("@Name", productType.Name);
             parameters.Add("@Price", productType.Price);
             parameters.Add("@Amount", productType.Amount);

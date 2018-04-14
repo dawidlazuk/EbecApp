@@ -25,7 +25,8 @@
               <td>{{order.createdDate}}</td>
               <td>{{order.modifiedDate}}</td>
               <td><button class="btn btn-default" (click)='showDetails(order)'>Details</button></td>
-              <td><button class="btn btn-default" (click)='cancelOrder(order)'>Cancel</button></td>
+              <td><button class="btn btn-default" (click)='cancelOrder(order)' 
+                *ngIf='order.status == OrderStatus.new || order.status == OrderStatus.inProgress || order.status == OrderStatus.readyToReceive'>Cancel</button></td>
             </tr>
           </tbody>
         </table>

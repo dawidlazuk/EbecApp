@@ -22,8 +22,9 @@ namespace EbecShop.Model
         }
 
         public OrderStatus Status { get; set; }
+        
 
-        public IDictionary<ProductType,decimal> Products { get; set; }
+        public IDictionary<ProductType, decimal> Products { get; set; }
 
         /// <summary>
         /// TODO, not implemented
@@ -32,7 +33,7 @@ namespace EbecShop.Model
 
         public Order()
         {
-            Products = new Dictionary<ProductType,decimal>();
+
         }
 
         public decimal Value => Products.Sum(pa => pa.Key.Price * pa.Value);

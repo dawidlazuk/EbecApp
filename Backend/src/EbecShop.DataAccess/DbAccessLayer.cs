@@ -46,7 +46,7 @@ namespace EbecShop.DataAccess
             }
 
 
-            public static async Task<IEnumerable<Order>> GetOrdersByQuery(OrderQuery query)
+            public static async Task<IEnumerable<Order>> GetOrdersByQueryAsync(OrderQuery query)
             {
                 using (var unitOfWork = new UnitOfWork(ConfigurationReader.ConnectionString))
                 {
