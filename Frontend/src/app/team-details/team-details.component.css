@@ -1,0 +1,9 @@
+th, td{
+    vertical-align: middle;
+    line-height: normal;
+}
+
+tbody, table{
+    padding: 0px;
+    margin: 0px;
+}

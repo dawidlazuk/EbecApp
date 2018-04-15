@@ -157,8 +157,17 @@ namespace EbecShop.Customer.BizLogic
                 return unitOfWork.Products.GetFullProduct(id);
         }
 
-       
+
         #endregion
 
+        #region Teams
+
+        public Team GetTeam(int id)
+        {
+            using (var unitOfWork = new UnitOfWork())
+                return unitOfWork.Teams.Get(id);
+        }
+
+        #endregion
     }
 }

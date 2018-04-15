@@ -3,6 +3,7 @@ import { ProductsService } from './services/products/products.service';
 import * as $ from "jquery";
 import { ShoppingCartService } from './services/shopping-cart-service';
 import { OrdersService } from './services/orders/orders.service';
+import { TeamsService } from './services/teams/teams.service';
 
 @Component({
   selector: 'app-root',
@@ -11,7 +12,8 @@ import { OrdersService } from './services/orders/orders.service';
   providers: [
     ProductsService,
     ShoppingCartService,
-    OrdersService
+    OrdersService,
+    TeamsService
   ]
 })
 export class AppComponent {

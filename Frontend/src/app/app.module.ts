@@ -15,6 +15,7 @@ import { ShoppingCartComponent } from './shopping-cart/shopping-cart.component';
 import { OrdersListComponent } from './orders-list/orders-list.component';
 import { OrderStatusToDisplayNamePipe } from './pipes/order-status-to-display-name.pipe';
 import { OrderDetailsComponent } from './order-details/order-details.component';
+import { TeamDetailsComponent } from './team-details/team-details.component';
 
 const appRoutes: Routes = [
   { path: 'products', component: ProductsListComponent },
@@ -36,7 +37,8 @@ const appRoutes: Routes = [
     ShoppingCartComponent,
     OrdersListComponent,
     OrderStatusToDisplayNamePipe,
-    OrderDetailsComponent
+    OrderDetailsComponent,
+    TeamDetailsComponent
   ],
   entryComponents: [
     OrderDetailsComponent

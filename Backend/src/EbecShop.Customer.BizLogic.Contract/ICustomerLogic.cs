@@ -37,5 +37,7 @@ namespace EbecShop.Customer.BizLogic.Contract
         Order CancelOrder(Order order);
 
         Task<IEnumerable<Order>> GetTeamOrders(Team team);
+
+        Team GetTeam(int id);
     }
 }
