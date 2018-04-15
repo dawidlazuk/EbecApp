@@ -1,0 +1,46 @@
+<div class='component'>
+  <div class='panel panel-default'>
+    <div class='panel-heading'>
+      <label>Orders</label>
+    </div>
+    <div class='panel-body'>
+      <div class="table-responsive">
+        <table class="table table-striped">
+          <thead>
+            <tr>
+              <th>Id</th>
+              <th>Team</th>
+              <th>Status</th>
+              <th>Price</th>
+              <th>Created</th>
+              <th>Modified</th>
+              <th>Details</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor='let order of orders'>
+              <td>{{order.id}}</td>
+              <td>{{order.team.name}}</td>
+              <td class='{{OrderStatus[order.status]}}'>{{order.status | orderStatusToDisplayName}}</td>
+              <td>{{order.value}}</td>
+              <td>{{order.createdDate}}</td>
+              <td>{{order.modifiedDate}}</td>
+              <td><button class="btn btn-default" (click)='showDetails(order)'>Details</button></td>    
+               
+              <td>
+                <div class='btn-group'>                  
+                  <button class="btn btn-default" (click)='modifyOrderState(order)' *ngIf='order.status == OrderStatus.new'>Start</button>
+                  <button class="btn btn-default" (click)='modifyOrderState(order)' *ngIf='order.status == OrderStatus.inProgress'>Ready</button>
+                  <button class="btn btn-default" (click)='modifyOrderState(order)' *ngIf='order.status == OrderStatus.readyToReceive'>Received</button>
+                  <button class="btn btn-danger" (click)='cancelOrder(order)' 
+                  *ngIf='order.status == OrderStatus.new || order.status == OrderStatus.inProgress || order.status == OrderStatus.readyToReceive'>Cancel</button>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>

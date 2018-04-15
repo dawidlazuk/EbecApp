@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
-import { ITeam, Team } from '../../team-details/team';
 import { Observable } from 'rxjs/Observable';
+import { Team, ITeam } from '../../shared/teams/team';
 
 @Injectable()
 export class TeamsService {
@@ -16,7 +16,7 @@ export class TeamsService {
     return this._http.get<ITeam>(getTeamUrl)
       .do(data =>{
         let team: ITeam = new Team();
-        team.id = data.id;
+        team.id = data.id,
         team.name = data.name;
         team.balance = data.balance;
         team.availableBalance = data.availableBalance;
@@ -26,7 +26,7 @@ export class TeamsService {
   }
 
   private handleError(err: HttpErrorResponse){
-    console.log(err.message);
+    console.error(err.message);
     alert("An error occured, see console.");
     return Observable.throw(err.message);
   }

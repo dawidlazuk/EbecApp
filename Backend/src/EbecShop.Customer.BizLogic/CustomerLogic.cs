@@ -23,6 +23,11 @@ namespace EbecShop.Customer.BizLogic
 
         #region Orders
 
+        public Task<IEnumerable<Order>> GetOrdersAsync()
+        {
+            return DbAccessLayer.Orders.GetOrdersByQueryAsync(new OrderQuery());
+        }
+
         public Order GetOrder(int id)
         {
             return DbAccessLayer.Orders.GetOrdersByQueryAsync(new OrderQuery { OrderId = id }).Result.Single();            
@@ -167,6 +172,7 @@ namespace EbecShop.Customer.BizLogic
             using (var unitOfWork = new UnitOfWork())
                 return unitOfWork.Teams.Get(id);
         }
+
 
         #endregion
     }

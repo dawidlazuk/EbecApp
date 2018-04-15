@@ -4,6 +4,8 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
 import { IOrder, Order } from '../../shared/orders/order';
 import { IProductType } from '../../shared/products/productType';
+import { Team } from '../../shared/teams/team';
+import 'rxjs/add/operator/map';
 
 @Injectable()
 export class OrdersService {
@@ -20,11 +22,17 @@ export class OrdersService {
     });
   }
 
-  getOrders(teamId: number): Observable<IOrder[]>{
-    let getOrdersUrl = this.ordersControllerUrl + "?teamId=" + teamId;
+  getOrders(): Observable<IOrder[]>{
+    let getOrdersUrl = this.ordersControllerUrl;
 
     return this._http.get<Order[]>(getOrdersUrl)
-      .do(this.mapOrders)
+      .catch(this.handleError)
+  }
+
+  getTeamOrders(teamId: number): Observable<IOrder[]>{
+    let getOrdersUrl = this.ordersControllerUrl + "/byTeam?teamId=" + teamId;
+
+    return this._http.get<Order[]>(getOrdersUrl)
       .catch(this.handleError);
   }
 
@@ -39,7 +47,6 @@ export class OrdersService {
     let deleteOrderUrl = this.ordersControllerUrl + "/" + order.id;
     
     return this._http.delete<IOrder>(deleteOrderUrl)
-      .do(order => this.mapOrders([order]))
       .catch(this.handleError);
   }
 
@@ -56,11 +63,14 @@ export class OrdersService {
     return JSON.stringify(order);
   }
 
-  private mapOrders(orders: IOrder[]){     
+  private mapOrders(orders: any[]){     
     for(let order of orders)
     {
         let tempOrder = new Order();
         tempOrder.id = order.id;
+        tempOrder.team = new Team();
+        tempOrder.team.id = order.teamId;
+        tempOrder.team.name = order.teamName;
         tempOrder.status = order.status;
         tempOrder.value = order.value;
         tempOrder.modifiedDate = order.modifiedDate;
@@ -79,7 +89,7 @@ export class OrdersService {
   }
 
   private handleError(err: HttpErrorResponse){
-    console.log(err.message);
+    console.error(err.message);
     alert("An error occured, see console.");
     return Observable.throw(err.message);
   }

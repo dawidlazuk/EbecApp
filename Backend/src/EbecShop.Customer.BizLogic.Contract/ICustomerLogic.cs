@@ -23,6 +23,8 @@ namespace EbecShop.Customer.BizLogic.Contract
 
         Order GetOrder(int id);
 
+        Task<IEnumerable<Order>> GetOrdersAsync();
+
         Order CreateOrder(
             Team team,
             IDictionary<ProductType, decimal> products

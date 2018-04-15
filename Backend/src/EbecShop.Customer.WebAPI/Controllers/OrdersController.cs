@@ -6,6 +6,7 @@ using System.Net;
 using System;
 using Microsoft.AspNetCore.Cors;
 using System.Linq;
+using System.Collections.Generic;
 
 // For more information on enabling Web API for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -16,16 +17,54 @@ namespace EbecShop.Customer.WebAPI.Controllers
     public class OrdersController : Controller
     {
         private ICustomerLogic customerLogic;
-        private Team teamContext;
+        private Model.Team teamContext;
 
         public OrdersController(ICustomerLogic customerLogic)
         {
             this.customerLogic = customerLogic;
-            teamContext = new Team();
+            teamContext = new Model.Team();
         }
-        
+
         // GET: api/orders
         [HttpGet]
+        public async System.Threading.Tasks.Task<IActionResult> GetAllAsync()
+        {
+            try
+            {
+                var orders = await customerLogic.GetOrdersAsync();
+                AddTeamDataToOrders(orders);
+
+                return Ok(orders.Select(o => DTO.Order_DTO.MapFromModel(o)));
+            }
+            catch (Exception ex)
+            {
+#if DEBUG
+                throw;
+#endif
+                return StatusCode((int)HttpStatusCode.InternalServerError, ex);
+            }
+        }
+
+        private void AddTeamDataToOrders(IEnumerable<Model.Order> orders)
+        {
+            if (orders == null)
+                throw new ArgumentNullException(nameof(orders));
+
+            var teamCache = new Dictionary<int, Team>();
+            foreach (var order in orders)
+            {
+                Team team;
+                if (teamCache.TryGetValue(order.TeamId, out team) == false)
+                {
+                    team = customerLogic.GetTeam(order.TeamId);
+                    teamCache.Add(team.Id, team);
+                }
+                order.Team = team;
+            }
+        }
+
+        [HttpGet]
+        [Route("byTeam")]
         public IActionResult Get([FromQuery] int teamId)
         {
             if (teamId <= 0)
@@ -35,8 +74,10 @@ namespace EbecShop.Customer.WebAPI.Controllers
 
             if (orders.Any() == false)
                 return NotFound();
+
+            AddTeamDataToOrders(orders);
                         
-            return Ok(orders.Select(order => DTO.Order.MapFromModel(order))); 
+            return Ok(orders.Select(order => DTO.Order_DTO.MapFromModel(order))); 
         }
 
         [HttpGet]
@@ -53,7 +94,7 @@ namespace EbecShop.Customer.WebAPI.Controllers
 
             try
             {
-                return Ok(DTO.Order.MapFromModel(order));
+                return Ok(DTO.Order_DTO.MapFromModel(order));
             }
             catch (Exception ex)
             {

@@ -1,22 +1,21 @@
 import { Component, OnInit, Inject } from '@angular/core';
-import { IOrder } from '../order';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { IOrder } from '../../../shared/orders/order';
 
 @Component({
   selector: 'app-order-details',
   templateUrl: './order-details.component.html',
   styleUrls: ['./order-details.component.css']
 })
-export class OrderDetailsComponent implements OnInit {
+export class ShopOrderDetailsComponent implements OnInit {
   
   order: IOrder;
 
   constructor(
-    public dialogRef: MatDialogRef<OrderDetailsComponent>,
+    public dialogRef: MatDialogRef<ShopOrderDetailsComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any) 
     {
-      this.order = data.order;
-      console.log(this.order.products);      
+      this.order = data.order;     
     }
 
   ngOnInit() {

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using EbecShop.Customer.BizLogic.Contract;
+using EbecShop.Customer.WebAPI.DTO;
 using EbecShop.Model;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
@@ -42,7 +43,7 @@ namespace EbecShop.Customer.WebAPI.Controllers
             {
                 Team team = customerLogic.GetTeam(id);
                 if (team != null)
-                    return Ok(team);
+                    return Ok(Team_DTO.MapFromModel(team));
                 else
                     return NotFound();
             }

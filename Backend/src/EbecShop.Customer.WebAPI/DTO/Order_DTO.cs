@@ -1,15 +1,12 @@
 ﻿using EbecShop.Model.Enums;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace EbecShop.Customer.WebAPI.DTO
 {
-    public class Order
+    public class Order_DTO
     {
         public int Id { get; set; }
-        public int TeamId { get; set; }
+        public Team_DTO Team { get; set; }
         public OrderStatus Status {get;set;}
         public string Comment { get; set; }
         public decimal Value { get; set; }
@@ -18,12 +15,12 @@ namespace EbecShop.Customer.WebAPI.DTO
         public DateTime ModifiedDate { get; set; }
 
 
-        public static Order MapFromModel(EbecShop.Model.Order order)
+        public static Order_DTO MapFromModel(EbecShop.Model.Order order)
         {
-            return new Order
+            return new Order_DTO
             {
                 Id = order.Id,
-                TeamId = order.TeamId,
+                Team = Team_DTO.MapFromModel(order.Team),                
                 Status = order.Status,
                 Comment = order.Comment,
                 Value = order.Value,

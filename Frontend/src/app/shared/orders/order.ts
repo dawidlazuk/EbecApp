@@ -1,8 +1,10 @@
 import { OrderStatus } from "./order-status.enum";
 import { IProductType } from "../products/productType";
+import { Team } from "../teams/team";
 
 export interface IOrder{
     id: number;
+    team: Team;
     status: OrderStatus;
     products: {productType: IProductType, amount: number}[];
     value: number;
@@ -14,6 +16,7 @@ export interface IOrder{
 
 export class Order implements IOrder {
     id: number;
+    team: Team;
     status: OrderStatus;
     products: { productType: IProductType; amount: number; }[];
     value: number;
