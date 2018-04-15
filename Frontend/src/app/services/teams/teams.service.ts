@@ -13,7 +13,6 @@ export class TeamsService {
 
   getTeam(id: number): Observable<ITeam> {
     let getTeamUrl = this.teamsControllerUrl + "/" + id;
-    alert(getTeamUrl);
     return this._http.get<ITeam>(getTeamUrl)
       .do(data =>{
         let team: ITeam = new Team();
@@ -21,7 +20,6 @@ export class TeamsService {
         team.name = data.name;
         team.balance = data.balance;
         team.availableBalance = data.availableBalance;
-        console.log(team);
         return team;
       })
       .catch(this.handleError);

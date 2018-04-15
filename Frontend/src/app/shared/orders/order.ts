@@ -1,5 +1,5 @@
 import { OrderStatus } from "./order-status.enum";
-import { IProductType } from "./product/productType";
+import { IProductType } from "../products/productType";
 
 export interface IOrder{
     id: number;

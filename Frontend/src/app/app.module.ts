@@ -12,10 +12,9 @@ import { ProductsListComponent } from './products-list/products-list.component';
 import { HttpClientModule } from '@angular/common/http';
 import { NavigationBarComponent } from './navigation-bar/navigation-bar.component';
 import { ShoppingCartComponent } from './shopping-cart/shopping-cart.component';
-import { OrdersListComponent } from './orders-list/orders-list.component';
-import { OrderStatusToDisplayNamePipe } from './pipes/order-status-to-display-name.pipe';
-import { OrderDetailsComponent } from './order-details/order-details.component';
 import { TeamDetailsComponent } from './team-details/team-details.component';
+import { SharedModule } from './shared/shared.module';
+import { OrdersListComponent } from './shared/orders/orders-list/orders-list.component';
 
 const appRoutes: Routes = [
   { path: 'products', component: ProductsListComponent },
@@ -35,14 +34,9 @@ const appRoutes: Routes = [
     ProductsListComponent,
     NavigationBarComponent,
     ShoppingCartComponent,
-    OrdersListComponent,
-    OrderStatusToDisplayNamePipe,
-    OrderDetailsComponent,
     TeamDetailsComponent
   ],
-  entryComponents: [
-    OrderDetailsComponent
-  ],
+ 
   imports: [
     RouterModule.forRoot(
       appRoutes,
@@ -51,7 +45,8 @@ const appRoutes: Routes = [
     BrowserModule,
     HttpClientModule,
     MatDialogModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    SharedModule
   ],
   providers: [],
   bootstrap: [AppComponent]

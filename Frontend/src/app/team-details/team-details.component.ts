@@ -17,10 +17,6 @@ export class TeamDetailsComponent implements OnInit {
 
   ngOnInit() {
     this._teamsService.getTeam(this.teamId)
-    .subscribe(team => {
-      this.team = team;
-      alert(team);
-    });
+    .subscribe(team => this.team = team);
   }
-
 }

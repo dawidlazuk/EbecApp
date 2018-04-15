@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { OrdersService } from '../services/orders/orders.service';
 import { IOrder, Order } from '../order';
 import { OrderStatus } from '../order-status.enum';
 import { MatDialog } from '@angular/material/dialog';
 import { OrderDetailsComponent } from '../order-details/order-details.component';
+import { OrdersService } from '../../../services/orders/orders.service';
 
 @Component({
   selector: 'app-orders-list',

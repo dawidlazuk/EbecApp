@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { ShoppingCartService } from '../services/shopping-cart-service';
 import { Subscription } from 'rxjs/Subscription';
-import { IProductType } from '../product/productType';
 import * as $ from 'jquery';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
 import { OrdersService } from '../services/orders/orders.service';
+import { IProductType } from '../shared/products/productType';
 
 @Component({
   selector: 'app-shopping-cart',

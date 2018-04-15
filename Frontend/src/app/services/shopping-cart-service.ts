@@ -1,8 +1,6 @@
 import { Injectable } from "@angular/core";
-import { IProductType, ProductType } from "../product/productType";
 import {BehaviorSubject} from 'rxjs/BehaviorSubject';
-import { Product } from "../product/product";
-
+import { IProductType, ProductType } from "../shared/products/productType";
 @Injectable()
 export class ShoppingCartService {
     customer: {

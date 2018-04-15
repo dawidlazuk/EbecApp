@@ -1,10 +1,9 @@
 import { Injectable } from '@angular/core';
-import { IProductType } from '../../product/productType';
 import * as $ from 'jquery';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
-import { IOrder, Order } from '../../order';
 import { Observable } from 'rxjs/Observable';
-import { OrderStatus } from '../../order-status.enum';
+import { IOrder, Order } from '../../shared/orders/order';
+import { IProductType } from '../../shared/products/productType';
 
 @Injectable()
 export class OrdersService {
