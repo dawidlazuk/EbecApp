@@ -1,0 +1,27 @@
+app-shopping-cart{
+    position: absolute;
+    display: none;
+    width: 40%;
+    height: 100%;
+    top: 0;
+    left: 60%;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(57, 236, 96, 0.87);
+    z-index: 2;
+}
+
+.wrapper{
+    position: relative;
+    margin: 5px;
+}
+
+.half-wide{
+    position: absolute;
+    width: 60%;
+}
+
+.full-wide{
+    position: absolute;
+    width: 100%;
+}

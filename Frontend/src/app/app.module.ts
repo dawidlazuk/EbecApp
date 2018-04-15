@@ -5,36 +5,30 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { AppComponent } from './app.component';
-import { ProductComponent } from './product/product.component';
-import { SingleTypeOrderComponentComponent } from './product/single-type-order-component/single-type-order-component.component';
-import { MultiTypeOrderComponentComponent } from './product/multi-type-order-component/multi-type-order-component.component';
-import { ProductsListComponent } from './products-list/products-list.component';
 import { HttpClientModule } from '@angular/common/http';
-import { NavigationBarComponent } from './navigation-bar/navigation-bar.component';
-import { ShoppingCartComponent } from './shopping-cart/shopping-cart.component';
-import { TeamDetailsComponent } from './team-details/team-details.component';
 import { SharedModule } from './shared/shared.module';
 import { OrdersListComponent } from './shared/orders/orders-list/orders-list.component';
+import { CustomerModule } from './customer/customer.module';
+import { CustomerComponent } from './customer/customer.component';
+import { ProductsListComponent } from './customer/products-list/products-list.component';
+import { ShoppingCartComponent } from './customer/shopping-cart/shopping-cart.component';
 
-const appRoutes: Routes = [
-  { path: 'products', component: ProductsListComponent },
-  { path: 'orders', component: OrdersListComponent },
-  { path: 'cart', component: ShoppingCartComponent },
-
-  { path: '**', component: ProductsListComponent }
+const appRoutes: Routes = [  
+  { path: 'customer', component: CustomerComponent, 
+    children: [
+      { path: 'products', component: ProductsListComponent },
+      { path: 'orders', component: OrdersListComponent },
+      { path: 'cart', component: ShoppingCartComponent },
+      { path: '**', component: ProductsListComponent }
+    ]},
+    { path: '**', redirectTo: 'customer', pathMatch: 'full'} //temporary
+  //{ path: '**', component: CustomerComponent } //set for login
 ];
 
 
 @NgModule({
   declarations: [
     AppComponent,
-    ProductComponent,
-    SingleTypeOrderComponentComponent,
-    MultiTypeOrderComponentComponent,
-    ProductsListComponent,
-    NavigationBarComponent,
-    ShoppingCartComponent,
-    TeamDetailsComponent
   ],
  
   imports: [
@@ -46,7 +40,9 @@ const appRoutes: Routes = [
     HttpClientModule,
     MatDialogModule,
     BrowserAnimationsModule,
-    SharedModule
+    
+    SharedModule,
+    CustomerModule
   ],
   providers: [],
   bootstrap: [AppComponent]

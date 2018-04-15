@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { ProductType } from '../../shared/products/productType';
+import { ProductType } from '../../../shared/products/productType';
 
 @Component({
   selector: 'app-multi-type-order-component',

@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { ShoppingCartService } from '../services/shopping-cart-service';
 import { Subscription } from 'rxjs/Subscription';
 import * as $ from 'jquery';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
-import { OrdersService } from '../services/orders/orders.service';
-import { IProductType } from '../shared/products/productType';
+import { IProductType } from '../../shared/products/productType';
+import { ShoppingCartService } from './shopping-cart-service';
+import { OrdersService } from '../../services/orders/orders.service';
 
 @Component({
   selector: 'app-shopping-cart',
@@ -37,12 +37,7 @@ export class ShoppingCartComponent implements OnInit {
       this._orders.sendNewOrder(1, this.productsInCart);
       this._cart.clear();    
     }
-
-    // this._http.post(this.makeOrderUrl,this.createOrderRequest())
-    //   .catch(this.handleError);
-  }
-
-  
+  } 
 
   private handleError(err: HttpErrorResponse){
     console.log(err.message);
