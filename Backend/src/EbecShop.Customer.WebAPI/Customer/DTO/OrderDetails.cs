@@ -1,10 +1,7 @@
-﻿using EbecShop.Model;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using EbecShop.Model;
 
-namespace EbecShop.Customer.WebAPI.DTO
+namespace EbecShop.WebAPI.Customer.DTO
 {
     public class ProductTypeWithAmount
     {

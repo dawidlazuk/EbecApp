@@ -31,7 +31,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EbecShop.Shop.BizLogic.Cont
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EbecShop.Shop.BizLogic", "src\EbecShop.Shop.BizLogic\EbecShop.Shop.BizLogic.csproj", "{BAE134A9-B7A4-43C0-9EC6-F443524F60C7}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EbecShop.Customer.WebAPI", "src\EbecShop.Customer.WebAPI\EbecShop.Customer.WebAPI.csproj", "{1878A505-4402-4B57-BF9F-5393DEAA4392}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EbecShop.WebAPI", "src\EbecShop.Customer.WebAPI\EbecShop.WebAPI.csproj", "{1878A505-4402-4B57-BF9F-5393DEAA4392}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

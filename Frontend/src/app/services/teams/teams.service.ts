@@ -5,14 +5,14 @@ import { Team, ITeam } from '../../shared/teams/team';
 
 @Injectable()
 export class TeamsService {
-  teamsControllerUrl = "http://localhost:49906/api/teams"
+  teamsCustomerControllerUrl = "http://localhost:49906/api/customer/teams"
 
   constructor(private _http: HttpClient)
   {
   }
 
   getTeam(id: number): Observable<ITeam> {
-    let getTeamUrl = this.teamsControllerUrl + "/" + id;
+    let getTeamUrl = this.teamsCustomerControllerUrl + "/" + id;
     return this._http.get<ITeam>(getTeamUrl)
       .do(data =>{
         let team: ITeam = new Team();

@@ -3,7 +3,7 @@
   <PropertyGroup>
     <TargetFramework>netcoreapp2.0</TargetFramework>
     <PreserveCompilationContext>true</PreserveCompilationContext>
-    <AssemblyName>EbecShop.Customer.WebAPI</AssemblyName>
+    <AssemblyName>EbecShop.WebAPI</AssemblyName>
     <OutputType>Exe</OutputType>
     <PackageId>EbecShop.Customer.WebAPI</PackageId>
     <UserSecretsId>aspnet-EbecShop.Customer.WebAPI-20171225081803</UserSecretsId>
@@ -14,6 +14,8 @@
     <ProjectReference Include="..\EbecShop.Model\EbecShop.Model.csproj" />
     <ProjectReference Include="..\EbecShop.Customer.BizLogic\EbecShop.Customer.BizLogic.csproj" />
     <ProjectReference Include="..\EbecShop.Customer.BizLogic.Contract\EbecShop.Customer.BizLogic.Contract.csproj" />
+    <ProjectReference Include="..\EbecShop.Shop.BizLogic.Contract\EbecShop.Shop.BizLogic.Contract.csproj" />
+    <ProjectReference Include="..\EbecShop.Shop.BizLogic\EbecShop.Shop.BizLogic.csproj" />
   </ItemGroup>
 
   <ItemGroup>

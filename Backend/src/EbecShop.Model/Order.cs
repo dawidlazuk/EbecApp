@@ -1,5 +1,6 @@
 ﻿using EbecShop.Model.Abstract;
 using EbecShop.Model.Enums;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -21,10 +22,10 @@ namespace EbecShop.Model
             }
         }
 
-        public OrderStatus Status { get; set; }
-        
-
+        public OrderStatus Status { get; set; }       
         public IDictionary<ProductType, decimal> Products { get; set; }
+        public DateTime CreatedDate { get; set; }
+        public DateTime ModifiedDate { get; set; }
 
         /// <summary>
         /// TODO, not implemented

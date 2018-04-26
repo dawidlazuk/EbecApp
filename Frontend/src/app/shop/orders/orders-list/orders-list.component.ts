@@ -35,8 +35,10 @@ export class ShopOrdersListComponent implements OnInit {
     });
   }
 
-  modifyOrderState(order: IOrder): void{
+  modifyOrderState(order: IOrder, status: OrderStatus): void{
     alert("modify order state clicked");
+    this._ordersService.requestStatusChange(order.id, status)
+      .subscribe(order => this.refreshOrders());
   }
 
   cancelOrder(order: IOrder): void{

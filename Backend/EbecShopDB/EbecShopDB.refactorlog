@@ -7,4 +7,25 @@
     <Property Name="ParentElementType" Value="SqlTable" />
     <Property Name="NewName" Value="BlockedBalance" />
   </Operation>
+  <Operation Name="Rename Refactor" Key="edbccead-d591-47f4-855f-1a748c4c9d57" ChangeDateTime="04/15/2018 11:13:42">
+    <Property Name="ElementName" Value="[dbo].[Orders].[CreatedDate]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[Orders]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="Created" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="ab6db5c1-1795-48cf-b86a-2520231b831e" ChangeDateTime="04/15/2018 11:13:50">
+    <Property Name="ElementName" Value="[dbo].[Orders].[Modified]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[Orders]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="ModifiedDate" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="8b259f04-f7f3-4c7e-af3d-d46daeec0884" ChangeDateTime="04/15/2018 11:13:53">
+    <Property Name="ElementName" Value="[dbo].[Orders].[Created]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[Orders]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="CreatedDate" />
+  </Operation>
 </Operations>

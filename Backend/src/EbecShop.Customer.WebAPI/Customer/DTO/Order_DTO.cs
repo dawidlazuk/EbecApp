@@ -1,7 +1,7 @@
 ﻿using EbecShop.Model.Enums;
 using System;
 
-namespace EbecShop.Customer.WebAPI.DTO
+namespace EbecShop.WebAPI.Customer.DTO
 {
     public class Order_DTO
     {
@@ -24,8 +24,8 @@ namespace EbecShop.Customer.WebAPI.DTO
                 Status = order.Status,
                 Comment = order.Comment,
                 Value = order.Value,
-                CreatedDate = default(DateTime),
-                ModifiedDate = default(DateTime)
+                CreatedDate = order.CreatedDate,
+                ModifiedDate = order.ModifiedDate
             };
         }
     }

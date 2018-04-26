@@ -30,9 +30,9 @@
                
               <td>
                 <div class='btn-group'>                  
-                  <button class="btn btn-default" (click)='modifyOrderState(order)' *ngIf='order.status == OrderStatus.new'>Start</button>
-                  <button class="btn btn-default" (click)='modifyOrderState(order)' *ngIf='order.status == OrderStatus.inProgress'>Ready</button>
-                  <button class="btn btn-default" (click)='modifyOrderState(order)' *ngIf='order.status == OrderStatus.readyToReceive'>Received</button>
+                  <button class="btn btn-default" (click)='modifyOrderState(order, OrderStatus.inProgress)' *ngIf='order.status == OrderStatus.new'>Start</button>
+                  <button class="btn btn-default" (click)='modifyOrderState(order, OrderStatus.readyToReceive)' *ngIf='order.status == OrderStatus.inProgress'>Ready</button>
+                  <button class="btn btn-default" (click)='modifyOrderState(order, OrderStatus.finished)' *ngIf='order.status == OrderStatus.readyToReceive'>Received</button>
                   <button class="btn btn-danger" (click)='cancelOrder(order)' 
                   *ngIf='order.status == OrderStatus.new || order.status == OrderStatus.inProgress || order.status == OrderStatus.readyToReceive'>Cancel</button>
                 </div>

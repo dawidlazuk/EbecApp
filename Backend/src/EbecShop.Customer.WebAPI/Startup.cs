@@ -9,6 +9,9 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using EbecShop.Customer.BizLogic.Contract;
 using EbecShop.Customer.BizLogic;
+using EbecShop.Shop.BizLogic.Contract;
+using EbecShop.Shop.BizLogic;
+using Microsoft.AspNetCore.Mvc.Formatters;
 
 namespace EbecShop.Customer.WebAPI
 {
@@ -34,6 +37,7 @@ namespace EbecShop.Customer.WebAPI
                 .AddJsonOptions(options => options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
 
             services.AddTransient<ICustomerLogic, CustomerLogic>();
+            services.AddTransient<IShopLogic, ShopLogic>();
 
             services.AddCors(options =>
             {

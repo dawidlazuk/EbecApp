@@ -7,7 +7,8 @@ BEGIN
 
 	UPDATE [dbo].[Orders] SET
 		Status = @Status,
-		TeamId = @TeamId
+		TeamId = @TeamId,
+		ModifiedDate = GETDATE()
 	WHERE Id = @Id;
 
 END

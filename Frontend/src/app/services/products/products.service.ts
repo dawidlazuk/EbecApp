@@ -8,14 +8,14 @@ import { IProduct, Product } from '../../shared/products/product';
 
 @Injectable()
 export class ProductsService {
-  private _productUrl: string = 'http://localhost:49906/api/products';
+  private _productCustomerUrl: string = 'http://localhost:49906/api/customer/products';
 
   constructor(private _http: HttpClient) {    
   }
 
   getProducts() : Observable<IProduct[]> 
   {
-    return this._http.get<Product[]>(this._productUrl)
+    return this._http.get<Product[]>(this._productCustomerUrl)
           .do(this.mapProducts)
           .catch(this.handleError);
   }

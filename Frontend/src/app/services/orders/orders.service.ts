@@ -6,15 +6,17 @@ import { IOrder, Order } from '../../shared/orders/order';
 import { IProductType } from '../../shared/products/productType';
 import { Team } from '../../shared/teams/team';
 import 'rxjs/add/operator/map';
+import { OrderStatus } from '../../shared/orders/order-status.enum';
 
 @Injectable()
-export class OrdersService {
-  ordersControllerUrl = "http://localhost:49906/api/orders"
-  
+export class OrdersService {  
+  ordersCustomerControllerUrl = "http://localhost:49906/api/customer/orders"
+  ordersShopControllerUrl = "http://localhost:49906/api/shop/orders"
+
   constructor(private _http: HttpClient) { }
 
   sendNewOrder(teamId: number, products: {productType: IProductType, amount: number}[]){
-    let makeOrderUrl = this.ordersControllerUrl;
+    let makeOrderUrl = this.ordersCustomerControllerUrl;
     $.post({
       contentType: 'application/json',
       url: makeOrderUrl,
@@ -23,30 +25,40 @@ export class OrdersService {
   }
 
   getOrders(): Observable<IOrder[]>{
-    let getOrdersUrl = this.ordersControllerUrl;
+    let getOrdersUrl = this.ordersShopControllerUrl;
 
     return this._http.get<Order[]>(getOrdersUrl)
       .catch(this.handleError)
   }
 
   getTeamOrders(teamId: number): Observable<IOrder[]>{
-    let getOrdersUrl = this.ordersControllerUrl + "/byTeam?teamId=" + teamId;
+    let getOrdersUrl = this.ordersCustomerControllerUrl + "/byTeam?teamId=" + teamId;
 
     return this._http.get<Order[]>(getOrdersUrl)
       .catch(this.handleError);
   }
 
   getOrderDetails(order: IOrder): Observable<any>{
-    let getOrderDetailsUrl = this.ordersControllerUrl + "/" + order.id + "/details";
+    let getOrderDetailsUrl = this.ordersCustomerControllerUrl + "/" + order.id + "/details";
 
     return this._http.get<any>(getOrderDetailsUrl)
       .catch(this.handleError);    
   }
 
   cancelOrder(order: IOrder): Observable<IOrder> {
-    let deleteOrderUrl = this.ordersControllerUrl + "/" + order.id;
+    let deleteOrderUrl = this.ordersCustomerControllerUrl + "/" + order.id;
     
     return this._http.delete<IOrder>(deleteOrderUrl)
+      .catch(this.handleError);
+  }
+
+  requestStatusChange(orderId: number, status: OrderStatus): Observable<IOrder> {
+    let changeStateUrl = this.ordersShopControllerUrl + "/" + orderId;
+    
+    var requestBody = JSON.stringify({"status" : status });
+    alert(requestBody);
+
+    return this._http.put<IOrder>(changeStateUrl, requestBody, { headers: {'Content-Type': 'application/json'} })
       .catch(this.handleError);
   }
 

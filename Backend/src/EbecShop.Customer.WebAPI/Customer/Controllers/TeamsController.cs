@@ -1,17 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Net;
-using System.Threading.Tasks;
 using EbecShop.Customer.BizLogic.Contract;
-using EbecShop.Customer.WebAPI.DTO;
 using EbecShop.Model;
+using EbecShop.WebAPI.Customer.DTO;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
-namespace EbecShop.Customer.WebAPI.Controllers
+namespace EbecShop.WebAPI.Customer.Controllers
 {
     [Route("api/[controller]")]
     [EnableCors("AllowAngularAppOrigin")]

@@ -7,10 +7,14 @@ BEGIN
 
 	INSERT INTO [dbo].[Orders] (
 				Status,
-				TeamId
+				TeamId,
+				CreatedDate,
+				ModifiedDate
 			) VALUES (
 				@Status,
-				@TeamId
+				@TeamId,
+				GETDATE(),
+				GETDATE()
 			);
 
 	SET @Id = CAST(SCOPE_IDENTITY() as int);

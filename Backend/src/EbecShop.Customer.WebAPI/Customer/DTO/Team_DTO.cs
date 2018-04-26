@@ -1,4 +1,4 @@
-﻿namespace EbecShop.Customer.WebAPI.DTO
+﻿namespace EbecShop.WebAPI.Customer.DTO
 {
     public class Team_DTO
     {
@@ -9,6 +9,9 @@
 
         public static Team_DTO MapFromModel(Model.Team model)
         {
+            if (model == null)
+                return null;
+
             return new Team_DTO
             {
                 Id = model.Id,
