@@ -7,11 +7,13 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Mvc.Formatters;
 using EbecShop.Customer.BizLogic.Contract;
 using EbecShop.Customer.BizLogic;
 using EbecShop.Shop.BizLogic.Contract;
 using EbecShop.Shop.BizLogic;
-using Microsoft.AspNetCore.Mvc.Formatters;
+using EbecShop.WebAPI.Auth.DbContext;
 
 namespace EbecShop.Customer.WebAPI
 {
@@ -38,6 +40,9 @@ namespace EbecShop.Customer.WebAPI
 
             services.AddTransient<ICustomerLogic, CustomerLogic>();
             services.AddTransient<IShopLogic, ShopLogic>();
+
+            services.AddDbContext<AuthDbContext>(options =>
+                 options.UseSqlServer(Configuration.GetConnectionString("EbecShopAuthConnection")));
 
             services.AddCors(options =>
             {
