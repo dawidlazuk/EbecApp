@@ -22,5 +22,6 @@ namespace EbecShop.Shop.BizLogic.Contract
         Order SetOrderState_Finished(int orderId);
         Task<Order> SetOrderState_Finished_Async(int orderId);
 
+        Team CreateNewTeam(string name, decimal balance);
     }
 }

@@ -6,5 +6,6 @@ namespace EbecShop.WebAPI.Auth.Models
     {
         public int Id { get; set; }
         public string IdentityId { get; set; }
+        public string Login { get; set; }
     }
 }

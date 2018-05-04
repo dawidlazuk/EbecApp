@@ -126,6 +126,24 @@ namespace EbecShop.Shop.BizLogic
                 return order;
             }
         }
+        #endregion
+
+        #region Teams
+
+        public Team CreateNewTeam(string name, decimal balance)
+        {
+            using(var unitOfWork = new UnitOfWork())
+            {
+                var team = new Team()
+                {
+                    Name = name,
+                    Balance = balance
+                };
+
+                team = unitOfWork.Teams.Add(team);
+                return team;
+            }
+        }
 
         #endregion
     }
